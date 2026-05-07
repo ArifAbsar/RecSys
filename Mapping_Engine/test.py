@@ -143,8 +143,8 @@ def map_column(
         }
 
     qualified_candidates = [
-        c for c in ranked_candidates
-        if c["final_confidence"] >= min_score
+        candidate for candidate in ranked_candidates
+        if candidate["final_confidence"] >= min_score
     ] or ranked_candidates[:1]
 
     return {

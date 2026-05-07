@@ -22,13 +22,13 @@ def build_target_registry(schema_path: str, keywords_path: str = None, metrics_p
 
     metrics_data = []
     if metrics_path and os.path.exists(metrics_path):
-        with open(metrics_path, 'r') as f:
-            metrics_data = yaml.safe_load(f).get("derived_metrics", [])
+        with open(metrics_path, 'r') as metrics:
+            metrics_data = yaml.safe_load(metrics).get("derived_metrics", [])
 
     rules_data = []
     if rules_path and os.path.exists(rules_path):
-        with open(rules_path, 'r') as f:
-            data = yaml.safe_load(f)
+        with open(rules_path, 'r') as rules:
+            data = yaml.safe_load(rules)
             rules_data = data.get("field_recognition_rules", []) + \
                          data.get("conflict_resolution_rules", []) + \
                          data.get("requirement_resolution_rules", []) + \
@@ -36,14 +36,14 @@ def build_target_registry(schema_path: str, keywords_path: str = None, metrics_p
 
     validations_data = []
     if validations_path and os.path.exists(validations_path):
-        with open(validations_path, 'r') as f:
-            data = yaml.safe_load(f)
+        with open(validations_path, 'r') as validation:
+            data = yaml.safe_load(validation)
             validations_data = data.get("global_rules", []) + data.get("entity_rules", [])
 
     questions_data = []
     if questions_path and os.path.exists(questions_path):
-        with open(questions_path, 'r') as f:
-            data = yaml.safe_load(f)
+        with open(questions_path, 'r') as questions:
+            data = yaml.safe_load(questions)
             for group in data.get("question_groups", []):
                 questions_data.extend(group.get("questions", []))
 
@@ -97,18 +97,18 @@ def build_target_registry(schema_path: str, keywords_path: str = None, metrics_p
                 if field_name in logic or field_name in rule_name:
                     target["context_rules"].append(f"Rule '{r.get('name')}': {r.get('logic')}")
 
-            for v in validations_data:
-                if v.get("entity") == entity_name:
-                    for check in v.get("recommended_checks", []):
+            for value in validations_data:
+                if value.get("entity") == entity_name:
+                    for check in value.get("recommended_checks", []):
                         if field_name in check.get("check", "").lower() or field_name in check.get("name", "").lower():
                             target["context_rules"].append(f"Validation '{check['name']}': {check['check']}")
-                elif "check" in v and field_name in v["check"].lower():
-                    target["context_rules"].append(f"Global Validation '{v['name']}': {v['check']}")
+                elif "check" in value and field_name in value["check"].lower():
+                    target["context_rules"].append(f"Global Validation '{value['name']}': {value['check']}")
 
-            for q in questions_data:
-                maps_to = [m.lower() for m in q.get("maps_to", [])]
+            for question in questions_data:
+                maps_to = [mapping.lower() for mapping in question.get("maps_to", [])]
                 if field_id.lower() in maps_to or entity_name.lower() in maps_to or field_name.lower() in maps_to:
-                    target["context_rules"].append(f"Business Ambiguity Question: {q.get('question')}")
+                    target["context_rules"].append(f"Business Ambiguity Question: {question.get('question')}")
 
             registry.append(target)
 
@@ -127,14 +127,14 @@ def build_keyword_intent_index(keywords_path: str) -> dict:
     if not keywords_path or not os.path.exists(keywords_path):
         return {}
 
-    with open(keywords_path, 'r') as f:
-        raw = yaml.safe_load(f)
+    with open(keywords_path, 'r') as keywords:
+        raw = yaml.safe_load(keywords)
 
     index = {}
-    for field_name, kw_data in raw.get("field_keywords", {}).items():
-        canonical_entity   = kw_data.get("canonical_entity", "")
-        match_priority     = kw_data.get("match_priority",   "medium")
-        for syn in kw_data.get("synonyms", []):
+    for field_name, keyword_data in raw.get("field_keywords", {}).items():
+        canonical_entity   = keyword_data.get("canonical_entity", "")
+        match_priority     = keyword_data.get("match_priority",   "medium")
+        for syn in keyword_data.get("synonyms", []):
             key = syn.lower().replace("-", "_").replace(" ", "_")
             if key not in index:
                 index[key] = {
