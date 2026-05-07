@@ -3,4 +3,5 @@ pandas
 numpy
 scikit-learn
 sentence-transformers
-tqdm
+tqdm
+rapidfuzz
