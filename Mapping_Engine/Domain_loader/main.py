@@ -1,4 +1,16 @@
 import argparse
+import os
+import sys
+
+# Get absolute paths
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+
+# Add both parent and current directory to path
+for d in [parent_dir, current_dir]:
+    if d not in sys.path:
+        sys.path.insert(0, d)
+
 from domain_loader import build_target_registry
 from text_builder.text_builder import build_target_text
 

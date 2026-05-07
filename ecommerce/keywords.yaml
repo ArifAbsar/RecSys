@@ -120,6 +120,20 @@ field_keywords:
     - business_name
     - CustomerName
     - customer_full_name
+    - first_name
+    - firstName
+    - last_name
+    - lastName
+    - given_name
+    - givenName
+    - surname
+    - family_name
+    - fname
+    - lname
+    - forename
+    - user_first_name
+    - user_last_name
+    - person_name
   email:
     canonical_field: email
     canonical_entity: CUSTOMER
@@ -744,6 +758,7 @@ field_keywords:
     match_priority: medium
     synonyms:
     - subtotal_amount
+    - revenue
     - subtotal
     - sub_total
     - line_subtotal
@@ -840,6 +855,7 @@ field_keywords:
     match_priority: high
     synonyms:
     - total_amount
+    - revenue
     - total
     - grand_total
     - order_total
@@ -3498,4 +3514,28 @@ field_keywords:
     - is-optional
     - is optional
     - Is Optional
+  fulfillment_id:
+    canonical_field: fulfillment_id
+    canonical_entity: FULFILLMENT
+    data_type: string
+    match_priority: high
+    synonyms:
+    - fulfillment_id
+    - id
+    - fulfillment_no
+    - delivery_id
+    - shipment_id
+    - fulfillment_key
+  tracking_number:
+    canonical_field: tracking_number
+    canonical_entity: FULFILLMENT
+    data_type: string
+    match_priority: high
+    synonyms:
+    - tracking_number
+    - tracking_no
+    - waybill
+    - consignment_number
+    - awb
+    - tracking_id
 usage_note: Use synonyms for recognition only; do not infer that a field is globally required just because a synonym exists.

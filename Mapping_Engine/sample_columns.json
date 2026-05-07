@@ -1,0 +1,146 @@
+[
+  {
+    "table": "customers",
+    "column": "email",
+    "data_type": "string",
+    "sample_values": ["bob@example.com", "alice@work.com"],
+    "null_rate": 0.0,
+    "comment": "Scenario 1 — Perfect match: name, table, and type all agree"
+  },
+  {
+    "table": "orders",
+    "column": "revenue",
+    "data_type": "decimal",
+    "sample_values": [99.99, 150.00],
+    "null_rate": 0.01,
+    "comment": "Scenario 2 — Synonym match: 'revenue' is a known synonym of subtotal_amount"
+  },
+  {
+    "table": "products",
+    "column": "price",
+    "data_type": "string",
+    "sample_values": ["$10.00", "$20.00"],
+    "null_rate": 0.05,
+    "comment": "Scenario 3 — Type conflict: name matches unit_price but data_type is string, not decimal"
+  },
+  {
+    "table": "fulfillment",
+    "column": "id",
+    "data_type": "int",
+    "sample_values": [1001, 1002],
+    "null_rate": 0.0,
+    "comment": "Scenario 4 — Ambiguous ID: bare 'id' relies on table context to map to FULFILLMENT.fulfillment_id"
+  },
+  {
+    "table": "tbl_user_v3",
+    "column": "first_name",
+    "data_type": "string",
+    "sample_values": ["John", "Jane"],
+    "null_rate": 0.02,
+    "comment": "Scenario 5 — Dirty table name + split name: tbl_ prefix removed, first_name → CUSTOMER.customer_name"
+  },
+  {
+    "table": "internal_logs",
+    "column": "temp_xyz",
+    "data_type": "varchar",
+    "sample_values": ["a1", "b2"],
+    "null_rate": 0.90,
+    "comment": "Scenario 6 — Nonsense column: should fall through to CUSTOM_FIELD"
+  },
+  {
+    "table": "cust_data",
+    "column": "cust_id",
+    "data_type": "string",
+    "sample_values": ["C-001", "C-002"],
+    "null_rate": 0.0,
+    "comment": "Scenario 7 — Abbreviation synonym: cust_id → CUSTOMER.customer_id"
+  },
+  {
+    "table": "transactions",
+    "column": "txn_id",
+    "data_type": "string",
+    "sample_values": ["TXN-8821", "TXN-8822"],
+    "null_rate": 0.0,
+    "comment": "Scenario 8 — Abbreviation: txn_id is a listed synonym of TRANSACTION.transaction_id"
+  },
+  {
+    "table": "product_catalog",
+    "column": "item_price",
+    "data_type": "decimal",
+    "sample_values": [29.99, 49.99],
+    "null_rate": 0.0,
+    "comment": "Scenario 9 — Synonym + table match: item_price → PRODUCT.unit_price"
+  },
+  {
+    "table": "orders",
+    "column": "total_amt",
+    "data_type": "decimal",
+    "sample_values": [199.99, 55.50],
+    "null_rate": 0.02,
+    "comment": "Scenario 10 — Abbreviation/fuzzy: total_amt → TRANSACTION.total_amount"
+  },
+  {
+    "table": "dim_product",
+    "column": "sku_code",
+    "data_type": "string",
+    "sample_values": ["SKU-001", "SKU-9983"],
+    "null_rate": 0.0,
+    "comment": "Scenario 11 — Dirty table name + synonym: dim_ prefix stripped, sku_code → PRODUCT.sku"
+  },
+  {
+    "table": "order_items",
+    "column": "qty",
+    "data_type": "int",
+    "sample_values": [1, 3, 5],
+    "null_rate": 0.0,
+    "comment": "Scenario 12 — Abbreviation synonym: qty → ORDER_LINE.quantity"
+  },
+  {
+    "table": "user_events",
+    "column": "event_type",
+    "data_type": "string",
+    "sample_values": ["page_view", "add_to_cart", "purchase"],
+    "null_rate": 0.0,
+    "comment": "Scenario 13 — Direct field name match in session/event entity"
+  },
+  {
+    "table": "sales",
+    "column": "discount",
+    "data_type": "decimal",
+    "sample_values": [5.00, 0.00, 10.00],
+    "null_rate": 0.10,
+    "comment": "Scenario 14 — Synonym match: discount → TRANSACTION.discount_amount"
+  },
+  {
+    "table": "stg_orders",
+    "column": "order_date",
+    "data_type": "timestamp",
+    "sample_values": ["2024-01-15T10:30:00Z", "2024-01-16T09:00:00Z"],
+    "null_rate": 0.0,
+    "comment": "Scenario 15 — Dirty table name (stg_ prefix) + direct match: order_date → TRANSACTION.order_date"
+  },
+  {
+    "table": "fact_sales",
+    "column": "channel",
+    "data_type": "string",
+    "sample_values": ["web", "mobile", "POS"],
+    "null_rate": 0.05,
+    "comment": "Scenario 16 — Dirty table (fact_) + synonym: channel → TRANSACTION.sales_channel"
+  },
+  {
+    "table": "returns",
+    "column": "refund_amt",
+    "data_type": "decimal",
+    "sample_values": [25.00, 50.00],
+    "null_rate": 0.0,
+    "comment": "Scenario 17 — Abbreviation + entity context: refund_amt → RETURN.refund_amount"
+  },
+  {
+    "table": "inventory",
+    "column": "qty_available",
+    "data_type": "int",
+    "sample_values": [0, 50, 200],
+    "null_rate": 0.0,
+    "comment": "Scenario 18 — Partial synonym + entity: qty_available → INVENTORY.quantity_available or similar"
+  }
+]

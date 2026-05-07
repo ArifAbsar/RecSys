@@ -87,10 +87,19 @@ conflict_resolution_rules:
     payment, fee, payout, or cost.
   ask_question_if: revenue_metric_requested_and_policy_unknown
 - id: CR_004
+  name: order_table_priority
+  logic: Tables named 'orders' or 'order' should be prioritized as TRANSACTION (sales) rather than PURCHASE_ORDER (procurement) unless columns like 'supplier_id' or 'vendor' are present.
+- id: CR_007
+  name: primary_id_priority
+  logic: Columns named exactly 'id', 'uuid', or 'pk' within a specific table MUST be mapped to the Primary Identifier of that canonical entity (e.g., fulfillment.id -> FULFILLMENT.fulfillment_id).
+- id: CR_008
+  name: revenue_vs_metrics_priority
+  logic: Columns named 'revenue' should be mapped to TRANSACTION.total_amount or ORDER_LINE.line_total_amount before being mapped to derived metrics like CUSTOMER.lifetime_value.
+- id: CR_005
   name: product_vs_variant
   logic: If product_id repeats across SKUs, use variant_id or sku as the sellable item grain for product performance and inventory.
   ask_question_if: sku_variant_relationship_unclear
-- id: CR_005
+- id: CR_006
   name: header_line_event_bridge_resolution
   logic: 'When a source table has mixed identifiers, classify it as header, line, event, bridge, or ledger by grain: one row
     per order/customer/product vs. one row per event, component, movement, tax line, payout, or redemption.'
