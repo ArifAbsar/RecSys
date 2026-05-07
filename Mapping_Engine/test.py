@@ -12,6 +12,7 @@ from Reranking.Resolver import resolve_mappings
 from sentence_transformers import CrossEncoder
 import yaml
 from tqdm import tqdm
+import pandas as pd
 
 
 
@@ -76,7 +77,35 @@ def parse_args():
 
 
 
+def load_columns_from_csv(path: str) -> list:
+    print(f"Loading columns from CSV: {path}")
+    df = pd.read_csv(path, nrows=100)
+    table_name = os.path.basename(path).split(".")[0]
+    
+    columns = []
+    for col in df.columns:
+        sample = df[col].dropna()
+        if sample.empty:
+            dtype = "string"
+        else:
+            if pd.api.types.is_numeric_dtype(df[col]):
+                dtype = "number"
+            elif pd.api.types.is_datetime64_any_dtype(df[col]) or "date" in col.lower() or "time" in col.lower():
+                dtype = "datetime"
+            else:
+                dtype = "string"
+        
+        columns.append({
+            "table": table_name,
+            "column": col,
+            "data_type": dtype
+        })
+    return columns
+
+
 def load_columns(path: str) -> list:
+    if path.endswith(".csv"):
+        return load_columns_from_csv(path)
     with open(path, "r", encoding="utf-8") as f:
         data = json.load(f)
     if not isinstance(data, list):
