@@ -6,6 +6,9 @@ A data-driven, AI-powered pipeline designed to automatically resolve source data
 
 ## System Architecture
 
+![System Architecture Flow Map](img/flow_map.png)
+
+---
 
 ## Detailed Operational Flow
 
