@@ -1,7 +1,7 @@
 import numpy as np
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
-from text_builder.text_builder import build_source_text, build_target_text
+from Mapping_Engine.text_builder.text_builder import build_source_text, build_target_text
 
 class Embedding:
     def __init__(self, model_name: str):

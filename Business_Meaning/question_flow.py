@@ -32,14 +32,27 @@ def _find_yaml_question(
     entity: str,
     field: str,
 ) -> Optional[str]:
-    """Search questions.yaml for a matching question."""
-    target_entity = str(entity).lower()
-    target_field  = str(field).lower()
+    """Search questions.yaml for a matching question, supporting dotted paths."""
+    target_entity = str(entity).lower().strip()
+    target_field  = str(field).lower().strip()
 
     for query in questions:
-        maps_to = [str(m).lower() for m in query.get("maps_to", [])]
+        maps_to = [str(m).lower().strip() for m in query.get("maps_to", [])]
+        
+        # Exact match in the list
         if target_entity in maps_to or target_field in maps_to:
             return query.get("question", "")
+            
+        # Parse structured entity.field dotted notation (e.g. "customer.customer_id")
+        for m in maps_to:
+            if "." in m:
+                parts = m.split(".")
+                if len(parts) == 2:
+                    m_ent, m_fld = parts[0], parts[1]
+                    if m_ent == target_entity and m_fld == target_field:
+                        return query.get("question", "")
+                    if m_fld == target_field:
+                        return query.get("question", "")
     return None
 
 

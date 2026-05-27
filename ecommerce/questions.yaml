@@ -3,8 +3,8 @@ version: 2.2.0-business-conditional-requirements
 purpose: Questions to ask when automatic entity/field recognition has low confidence or when business logic affects metric
   definitions. Includes requirement-context questions used to decide which fields are truly required.
 when_to_ask:
-  entity_confidence_below: 0.72
-  field_confidence_below: 0.78
+  entity_confidence_below: 0.80
+  field_confidence_below: 0.80
   multiple_possible_mappings: true
   metric_requires_business_policy: true
   never_ask_when: A high-confidence exact mapping exists and the business policy is not needed for the requested output.

@@ -12,7 +12,7 @@ for d in [parent_dir, current_dir]:
         sys.path.insert(0, d)
 
 from domain_loader import build_target_registry
-from text_builder.text_builder import build_target_text
+from Mapping_Engine.text_builder.text_builder import build_target_text
 
 def main():
     parser = argparse.ArgumentParser(description="Run Domain Loader and Text Builder together.")
