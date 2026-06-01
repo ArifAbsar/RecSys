@@ -103,11 +103,11 @@ def run_refinery(data_path: str, config_path: str, output_dir: str):
 
     user_feats = {}
     for col in config.get("interaction_signals", {}).keys():
-        if col != rating_col and col != group_col:
+        if col != rating_col and col != group_col and col != timestamp_col:
             user_feats[f"{col}:token"] = df.groupby(user_col)[col].first().values
     
     if user_feats:
-        user_feat_df = pd.DataFrame({'user_id:token': df.groupby(user_col).groups.keys()})
+        user_feat_df = pd.DataFrame({'user_id:token': list(df.groupby(user_col).groups.keys())})
         for feat_name, feat_vals in user_feats.items():
             user_feat_df[feat_name] = feat_vals
         user_feat_df.to_csv(os.path.join(output_dir, 'rec.user'), index=False, sep='\t')

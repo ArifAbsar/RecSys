@@ -41,7 +41,8 @@ class UserInterestProfiler:
 
         theme_counts: dict[str, float] = {}
         past_names: list[str] = []
-        n_items = len(item_indices)
+        # Exclude PAD (idx=0) from the denominator so decay weights are accurate
+        n_items = int(np.sum(item_indices != 0))
 
         for rank, idx in enumerate(item_indices):
             if idx == 0:

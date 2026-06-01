@@ -74,6 +74,7 @@ class AutoThemeDiscovery:
         self.theme_labels: dict[int, str] = {}
         self.strategic_scores: np.ndarray | None = None
         self._embeddings: np.ndarray | None = None
+        self._all_sims: np.ndarray | None = None  # cached after fit(); used by get_item_themes
 
     def fit(self, descriptions: list[str]) -> 'AutoThemeDiscovery':
         print("[THEME] Encoding item descriptions...")
@@ -103,7 +104,7 @@ class AutoThemeDiscovery:
         self.item_cluster_ids = km.fit_predict(emb)
         self.cluster_centroids = km.cluster_centers_   # (k, dim)
 
-        self.theme_labels = {}
+        seen_labels: dict[str, int] = {}
         for c in range(k):
             members = np.where(self.item_cluster_ids == c)[0]
             if len(members) == 0:
@@ -115,13 +116,19 @@ class AutoThemeDiscovery:
             rep_item = members[np.argmax(sims)]
             words = descriptions[rep_item].split()[:4]
             label = "_".join(w.strip('.,;:') for w in words if w.strip('.,;:'))
-            self.theme_labels[c] = label or f"Theme_{c}"
+            label = label or f"Theme_{c}"
+            # Deduplicate: append cluster id suffix if label already used
+            if label in seen_labels:
+                label = f"{label}_{c}"
+            seen_labels[label] = c
+            self.theme_labels[c] = label
 
-        all_sims  = cosine_similarity(emb, self.cluster_centroids)
+        self._all_sims = cosine_similarity(emb, self.cluster_centroids)  # cached — reused in get_item_themes
+        self._embeddings = None  # free memory — _all_sims replaces per-item cosine calls
         own_c     = self.item_cluster_ids
-        own_sim   = all_sims[np.arange(n), own_c]
+        own_sim   = self._all_sims[np.arange(n), own_c]
 
-        mask_val = all_sims.copy()
+        mask_val = self._all_sims.copy()
         mask_val[np.arange(n), own_c] = -1.0
         best_other_sim = mask_val.max(axis=1)
 
@@ -137,9 +144,9 @@ class AutoThemeDiscovery:
     def get_item_themes(self, item_idx: int) -> list[str]:
         primary_c = int(self.item_cluster_ids[item_idx])
         themes = [self.theme_labels[primary_c]]
-        if self._embeddings is not None:
-            emb = self._embeddings[item_idx].reshape(1, -1)
-            sims = cosine_similarity(emb, self.cluster_centroids).flatten()
+        if self._all_sims is not None:
+            # Use pre-cached similarity matrix — no repeated cosine_similarity computation
+            sims = self._all_sims[item_idx].copy()
             primary_sim = float(sims[primary_c])
             sims[primary_c] = -1.0
             secondary_c = int(np.argmax(sims))

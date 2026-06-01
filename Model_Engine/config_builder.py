@@ -21,6 +21,8 @@ def build_configs(base_dir: str):
     
     # Interaction signals (Rating)
     signals = bml_config.get("interaction_signals", {})
+    if not signals:
+        raise ValueError("[CONFIG] 'interaction_signals' is empty in rec_config.json — cannot determine rating column.")
     if isinstance(next(iter(signals.values())), dict):
         rating_col = max(signals, key=lambda k: signals[k].get("weight", 0))
     else:
@@ -62,7 +64,7 @@ def build_configs(base_dir: str):
         "load_col": {
             "inter": ["user_id", "item_id", "rating", "timestamp"]
         },
-        "neg_sampling": {"uniform": 1},
+        "train_neg_sample_args": {"uniform": 1},  # replaces deprecated neg_sampling
         "eval_args": {
             "split": {"RS": [0.8, 0.1, 0.1]},
             "group_by": "user",

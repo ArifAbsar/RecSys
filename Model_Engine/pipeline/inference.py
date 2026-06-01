@@ -24,7 +24,7 @@ from .config import PipelineConfig
 from .theme_discovery import AutoThemeDiscovery
 from .user_profiler import UserInterestProfiler
 from .reranker import DiversityReranker
-from .scoring import compute_adaptive_weights, compute_per_user_scores
+from .scoring import compute_per_user_scores
 from .selector import select_recommendations
 from .data_utils import (
     resolve_paths,
@@ -47,6 +47,11 @@ def _apply_overrides(cfg: PipelineConfig, **overrides) -> None:
         "dense_weights":                 "dense_weights",
         "cold_start_cutoff":             "cold_start_cutoff",
         "moderate_cutoff":               "moderate_cutoff",
+        # Tier quota tuples — applied AFTER _apply_business_goals so explicit
+        # user values always win over the auto-computed fallbacks.
+        "cold_quotas":                   "cold_quotas",
+        "moderate_quotas":               "moderate_quotas",
+        "dense_quotas":                  "dense_quotas",
         "perso_label_percentile":        "perso_label_percentile",
         "curation_discovery_percentile": "curation_discovery_percentile",
         "perso_min_threshold":           "perso_min_threshold",
@@ -111,6 +116,22 @@ def _apply_business_goals(cfg: PipelineConfig, intelligence_map: dict,
     if cfg.perso_quota < 0:
         cfg.perso_quota = 0
 
+    # Keep per-tier quota tuples in sync with admin percentages.
+    # Cold users always get curation-dominant ratios; power users get perso-dominant.
+    # We preserve the admin's promotion slot and redistribute the remaining slots.
+    promo_slot = cfg.promo_quota
+    rem_slots  = cfg.n_recs - promo_slot
+
+    cold_perso     = max(0, round(rem_slots * 0.10))
+    cold_curation  = rem_slots - cold_perso          # remainder → always sums correctly
+    cfg.cold_quotas = (cold_perso, cold_curation, promo_slot)
+
+    mod_perso      = max(0, round(rem_slots * 0.50))
+    mod_curation   = rem_slots - mod_perso
+    cfg.moderate_quotas = (mod_perso, mod_curation, promo_slot)
+
+    cfg.dense_quotas = (cfg.perso_quota, cfg.curation_quota, promo_slot)  # admin-specified split
+
     cfg.enable_promotion              = True
     cfg.perso_label_percentile        = 92
     cfg.curation_discovery_percentile = 70
@@ -127,7 +148,12 @@ def _apply_business_goals(cfg: PipelineConfig, intelligence_map: dict,
     print(f"           Dense Weights  -> ai={cfg.dense_weights[0]:.2f} strat={cfg.dense_weights[1]:.2f} perso={cfg.dense_weights[2]:.2f} pop={cfg.dense_weights[3]:.2f}")
 
 
-def _run_batch_inference(retrieval_model, ranking_model, batch_tokens, dataset, item_rows, item_limit, config, cfg):
+def _run_batch_inference(
+    retrieval_model, ranking_model, batch_tokens,
+    dataset, item_rows, item_limit, config, cfg,
+    field_dim_map: dict,          # precomputed {field: (list_index, clamp_limit)}
+    retrieval_uid_field: str,     # USER_ID_FIELD from the retrieval model's config
+):
     """
     Two-Stage Architecture:
     1. Retrieval: LightGCN predicts scores for all items, selects Top K.
@@ -140,7 +166,7 @@ def _run_batch_inference(retrieval_model, ranking_model, batch_tokens, dataset, 
 
     # --- 1. RETRIEVAL (LightGCN) ---
     inter_retrieval = Interaction({
-        config['USER_ID_FIELD']: torch.tensor(all_user_indices).to(retrieval_model.device)
+        retrieval_uid_field: torch.tensor(all_user_indices).to(retrieval_model.device)
     })
     
     with torch.no_grad():
@@ -154,22 +180,17 @@ def _run_batch_inference(retrieval_model, ranking_model, batch_tokens, dataset, 
     flat_item_indices = topk_idx.flatten().cpu().numpy()
 
     batch_tensors: dict = {}
-    expected_fields = set(ranking_model.token_field_names)
     user_feats = dataset.get_user_feature()[all_user_indices]
 
-    for field in user_feats.interaction.keys():
-        if field in expected_fields:
-            f_idx = ranking_model.token_field_names.index(field)
-            limit = ranking_model.token_field_dims[f_idx]
+    for field, (f_idx, limit) in field_dim_map.items():
+        if field in user_feats.interaction:
             batch_tensors[field] = torch.clamp(
                 user_feats[field].repeat_interleave(k), 0, limit - 1
             ).to(config['device'])
 
     item_subset_rows = item_rows[flat_item_indices]
-    for field in item_subset_rows.interaction.keys():
-        if field in expected_fields:
-            f_idx = ranking_model.token_field_names.index(field)
-            limit = ranking_model.token_field_dims[f_idx]
+    for field, (f_idx, limit) in field_dim_map.items():
+        if field in item_subset_rows.interaction:
             batch_tensors[field] = torch.clamp(
                 item_subset_rows[field], 0, limit - 1
             ).to(config['device'])
@@ -218,6 +239,7 @@ def run_stage2_semantic_inference(
     ret_config, _, retrieval_model = load_recbole_model(
         retrieval_config_path, paths["cp_dir"], cfg.retrieval_model_name
     )
+    retrieval_uid_field = ret_config['USER_ID_FIELD']  # Bug 10: use retrieval config, not ranking config
 
     # 2. Load Ranking Model
     config, dataset, ranking_model = load_recbole_model(
@@ -250,8 +272,14 @@ def run_stage2_semantic_inference(
         item_ids, intelligence_map, item_limit
     )
     profiler = UserInterestProfiler(dataset, item_id_to_desc, item_themes_map, cfg=cfg)
-    reranker = DiversityReranker(cfg=cfg)  # ThompsonReranker — no catalog_size needed
-    compute_adaptive_weights(dataset, cfg=cfg)
+    reranker = DiversityReranker(cfg=cfg, item_limit=item_limit)  # ThompsonReranker — numpy array counts
+    # Bug 9: compute_adaptive_weights was called only for its print side-effect.
+    # The tier selection is already done per-user inside compute_per_user_scores.
+    # Print dataset-level tier info directly instead.
+    n_users_ds = max(dataset.user_num - 1, 1)
+    avg_inter_ds = len(dataset.inter_feat) / n_users_ds
+    tier = "cold" if avg_inter_ds < cfg.cold_start_cutoff else ("moderate" if avg_inter_ds < cfg.moderate_cutoff else "dense")
+    print(f"[WEIGHTS] avg_interactions={avg_inter_ds:.1f} dataset_tier={tier} (per-user weights applied individually)")
 
     popularity_scores = compute_popularity_scores(dataset, item_limit)
 
@@ -259,12 +287,21 @@ def run_stage2_semantic_inference(
     processed_count = 0
     n_batches       = -(-total_users // cfg.batch_size)
 
+    # Precompute {field: (index, clamp_limit)} once — avoids O(n_fields) list.index()
+    # inside every batch call (was called per-field per-batch = O(batches * fields^2)).
+    field_dim_map = {
+        f: (i, ranking_model.token_field_dims[i])
+        for i, f in enumerate(ranking_model.token_field_names)
+    }
+
     for b_idx in range(0, len(users_to_process), cfg.batch_size):
         batch_tokens = users_to_process[b_idx: b_idx + cfg.batch_size]
         print(f" > Batch {b_idx // cfg.batch_size + 1}/{n_batches}  ({processed_count} done)")
 
         all_user_indices, batch_ai_scores = _run_batch_inference(
-            retrieval_model, ranking_model, batch_tokens, dataset, item_rows, item_limit, config, cfg
+            retrieval_model, ranking_model, batch_tokens, dataset, item_rows, item_limit, config, cfg,
+            field_dim_map=field_dim_map,
+            retrieval_uid_field=retrieval_uid_field,
         )
 
         for i, user_token in enumerate(batch_tokens):
@@ -279,11 +316,9 @@ def run_stage2_semantic_inference(
                 global_strategic_scores=global_strategic_scores,
                 popularity_scores=popularity_scores,
                 is_campaign_item=is_campaign_item,
-                item_ids=item_ids,
                 item_themes_map=item_themes_map,
                 profiler=profiler,
                 reranker=reranker,
-                total_users=total_users,
             )
 
             user_profile   = profiler.get_profile(user_idx)
@@ -318,13 +353,14 @@ def run_stage2_semantic_inference(
 
     print(f"\n[SUCCESS] Saved {len(production_output)} user records -> {paths['output_path']}")
     print("-" * 80)
-    first_user  = users_to_process[0]
-    sample_recs = production_output.get(first_user, [])
-    print(f"Sample - User {first_user} ({len(sample_recs)} recs):")
-    for rank, rec in enumerate(sample_recs, 1):
-        print(
-            f"  {rank:>2}. {rec['item_id']:<12}"
-            f"  {rec['description'][:30]:<32}"
-            f"  [{rec['recommendation_type']:<15}]  "
-            f"{rec['explanation']['reason']}"
-        )
+    if users_to_process:
+        first_user  = users_to_process[0]
+        sample_recs = production_output.get(first_user, [])
+        print(f"Sample - User {first_user} ({len(sample_recs)} recs):")
+        for rank, rec in enumerate(sample_recs, 1):
+            print(
+                f"  {rank:>2}. {rec['item_id']:<12}"
+                f"  {rec['description'][:30]:<32}"
+                f"  [{rec['recommendation_type']:<15}]  "
+                f"{rec['explanation']['reason']}"
+            )

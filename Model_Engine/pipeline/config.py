@@ -48,6 +48,14 @@ class PipelineConfig:
     curation_quota: int = 2
     promo_quota: int    = 1
 
+    # ── Per-Tier Quotas (format: perso, curation, promo) ─────────────────
+    # These override the static quotas above on a per-user basis,
+    # matching the same 3-tier logic used for scoring weights.
+    # New/cold users get mostly curation; power users get mostly personalization.
+    cold_quotas:     tuple = (1, 8, 1)   # new users:      1 perso, 8 curation, 1 promo
+    moderate_quotas: tuple = (5, 4, 1)   # returning users: 5 perso, 4 curation, 1 promo
+    dense_quotas:    tuple = (7, 2, 1)   # power users:     7 perso, 2 curation, 1 promo
+
     top_themes: int        = 5    # top-N themes stored per user
     recency_decay: float   = 0.1  # 0 = flat history; higher = more recency weight
 

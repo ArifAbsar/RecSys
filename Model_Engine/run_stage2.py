@@ -23,6 +23,13 @@ DENSE_WEIGHTS           = (0.15, 0.10, 0.70, 0.05)
 COLD_START_CUTOFF       = 5.0    
 MODERATE_CUTOFF         = 20.0   
 
+# ── Per-Tier Selection Quotas (perso_slots, curation_slots, promo_slots) ────
+# None → auto-derived from OVERRIDE_PERSO_PCT / OVERRIDE_CURATION_PCT above.
+# Set explicitly to lock quotas regardless of business goal percentages.
+COLD_QUOTAS     = None   # e.g. (1, 8, 1) — new users:      1 perso, 8 curation, 1 promo
+MODERATE_QUOTAS = None   # e.g. (5, 4, 1) — returning users: 5 perso, 4 curation, 1 promo
+DENSE_QUOTAS    = None   # e.g. (7, 2, 1) — power users:     7 perso, 2 curation, 1 promo
+
 PERSO_LABEL_PERCENTILE          = 80    
 CURATION_DISCOVERY_PERCENTILE   = 60    
 PERSO_MIN_THRESHOLD             = 0.20 
@@ -68,6 +75,9 @@ if __name__ == "__main__":
         dense_weights=DENSE_WEIGHTS,
         cold_start_cutoff=COLD_START_CUTOFF,
         moderate_cutoff=MODERATE_CUTOFF,
+        cold_quotas=COLD_QUOTAS,
+        moderate_quotas=MODERATE_QUOTAS,
+        dense_quotas=DENSE_QUOTAS,
         perso_label_percentile=PERSO_LABEL_PERCENTILE,
         curation_discovery_percentile=CURATION_DISCOVERY_PERCENTILE,
         perso_min_threshold=PERSO_MIN_THRESHOLD,

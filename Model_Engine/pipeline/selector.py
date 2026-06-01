@@ -42,11 +42,29 @@ def select_recommendations(
 
     top_recs: list[dict] = []
     theme_usage: dict[str, int] = {}
+    reachable_types: set[str] = set()  # tracks which categories have ≥1 qualifying item for this user
+
+    # ── Adaptive quotas: mirror the same 3-tier logic used for scoring weights ──
+    n_inter = user_profile.get('n_interactions', 0)
+    if n_inter < cfg.cold_start_cutoff:
+        q_perso, q_curation, q_promo = cfg.cold_quotas
+    elif n_inter < cfg.moderate_cutoff:
+        q_perso, q_curation, q_promo = cfg.moderate_quotas
+    else:
+        q_perso, q_curation, q_promo = cfg.dense_quotas
+
+    # Clamp to n_recs so totals never exceed the requested list length
+    total_q = q_perso + q_curation + q_promo
+    if total_q != cfg.n_recs:
+        scale = cfg.n_recs / max(total_q, 1)
+        q_perso   = max(0, round(q_perso   * scale))
+        q_curation = max(0, round(q_curation * scale))
+        q_promo   = max(0, cfg.n_recs - q_perso - q_curation)
 
     quotas = {
-        "personalization": cfg.perso_quota,
-        "curation":        cfg.curation_quota,
-        "promotion":       cfg.promo_quota,
+        "personalization": q_perso,
+        "curation":        q_curation,
+        "promotion":       q_promo,
     }
     counts = {value: 0 for value in quotas}
 
@@ -66,16 +84,17 @@ def select_recommendations(
 
         # Check exposure cap
         if reranker.is_over_exposed(
-            item_ids[idx], total_users, bool(is_campaign_item[idx])
+            idx, total_users, bool(is_campaign_item[idx])
         ):
             continue
 
         themes = item_themes_map[idx]
         primary_theme = themes[0] if themes else "General"
+        item_id_str = str(item_ids[idx])  # cache once — used 4x below
 
         is_admin_push = (
-            str(item_ids[idx]) in promoted_ids
-            or str(item_ids[idx]) in clearance_ids
+            item_id_str in promoted_ids
+            or item_id_str in clearance_ids
         )
         is_promo = cfg.enable_promotion and is_admin_push
 
@@ -85,64 +104,71 @@ def select_recommendations(
                  or any(t in user_profile.get('top_themes', []) for t in themes))
         )
 
-        is_curation = (
-            not is_promo
-            and not is_perso
-            and ai_norm[idx] >= curation_threshold
-        )
+        # Determine natural recommendation type
+        if is_promo:
+            natural_type = "promotion"
+        elif is_perso:
+            natural_type = "personalization"
+        else:
+            natural_type = "curation"
 
-        rec_type = (
-            "promotion"       if is_promo else
-            "personalization" if is_perso else
-            "curation"        if is_curation else
-            "curation"
-        )
+        # Determine which slot this item will fill
+        assigned_type = None
+        if counts[natural_type] < quotas[natural_type]:
+            assigned_type = natural_type
+        else:
+            # Fallback scenario: natural category is full.
+            # Assign to the first underfilled category to preserve configured percentages.
+            for k in ["personalization", "curation", "promotion"]:
+                if counts[k] < quotas[k]:
+                    assigned_type = k
+                    break
 
-        other_types_exhausted = all(
-            counts[k] >= quotas[k] for k in quotas if k != rec_type
-        )
-        if counts[rec_type] < quotas[rec_type] or other_types_exhausted:
-            if theme_usage.get(primary_theme, 0) >= cfg.per_theme_cap:
-                continue
+        if assigned_type is None:
+            continue  # All quota slots are completely filled!
 
-            business_boosted = bool(is_campaign_item[idx]) and cfg.enable_promotion
+        if theme_usage.get(primary_theme, 0) >= cfg.per_theme_cap:
+            continue
 
-            campaign_type = "none"
-            if str(item_ids[idx]) in promoted_ids:
-                campaign_type = "promoted"
-            elif str(item_ids[idx]) in clearance_ids:
-                campaign_type = "clearance"
+        business_boosted = bool(is_campaign_item[idx]) and cfg.enable_promotion
 
-            matched_themes = [t for t in themes if t in user_theme_weights]
-            if is_promo:
-                reason = f"{campaign_type.capitalize()}: Featured brand selected for you"
-            elif matched_themes:
-                reason = f"Personalized: Matches your interest in {', '.join(matched_themes[:2])}"
-            elif is_perso:
-                reason = "Matches your browsing patterns"
-            else:
-                reason = "Discovery: A new item the AI thinks you will love"
+        campaign_type = "none"
+        if item_id_str in promoted_ids:
+            campaign_type = "promoted"
+        elif item_id_str in clearance_ids:
+            campaign_type = "clearance"
 
-            top_recs.append({
-                "item_id":             str(item_ids[idx]),
-                "description":         item_id_to_desc.get(item_ids[idx], "No Description"),
-                "recommendation_type": rec_type,
-                "business_boosted":    business_boosted,
-                "campaign_type":       campaign_type,
-                "scores": {
-                    "final_score":           round(float(final_scores[idx]),            4),
-                    "ai_relevance":          round(float(ai_norm[idx]),                 4),
-                    "strategic_boost":       round(float(global_strategic_scores[idx]), 4),
-                    "personalization_match": round(float(personalization_scores[idx]),  4),
-                    "popularity_score":      round(float(popularity_scores[idx]),       4),
-                },
-                "explanation": {
-                    "matched_user_interests": matched_themes,
-                    "reason": reason,
-                },
-            })
-            counts[rec_type] += 1
-            reranker.record_selection(item_ids[idx])
-            theme_usage[primary_theme] = theme_usage.get(primary_theme, 0) + 1
+        matched_themes = [t for t in themes if t in user_theme_weights]
+        if assigned_type == "promotion":
+            reason = f"{campaign_type.capitalize()}: Featured brand selected for you"
+        elif assigned_type == "personalization" and matched_themes:
+            reason = f"Personalized: Matches your interest in {', '.join(matched_themes[:2])}"
+        elif assigned_type == "personalization":
+            reason = "Matches your browsing patterns"
+        else:
+            # curation — show discovery reason regardless of theme overlap
+            reason = "Discovery: A new item the AI thinks you will love"
+
+        top_recs.append({
+            "item_id":             item_id_str,
+            "description":         item_id_to_desc.get(item_ids[idx], "No Description"),
+            "recommendation_type": assigned_type,
+            "business_boosted":    business_boosted,
+            "campaign_type":       campaign_type,
+            "scores": {
+                "final_score":           round(float(final_scores[idx]),            4),
+                "ai_relevance":          round(float(ai_norm[idx]),                 4),
+                "strategic_boost":       round(float(global_strategic_scores[idx]), 4),
+                "personalization_match": round(float(personalization_scores[idx]),  4),
+                "popularity_score":      round(float(popularity_scores[idx]),       4),
+            },
+            "explanation": {
+                "matched_user_interests": matched_themes,
+                "reason": reason,
+            },
+        })
+        counts[assigned_type] += 1
+        reranker.record_selection(idx)
+        theme_usage[primary_theme] = theme_usage.get(primary_theme, 0) + 1
 
     return top_recs

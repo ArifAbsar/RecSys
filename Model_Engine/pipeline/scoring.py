@@ -52,11 +52,9 @@ def compute_per_user_scores(
     global_strategic_scores: np.ndarray,
     popularity_scores: np.ndarray,
     is_campaign_item: np.ndarray,
-    item_ids: list,
     item_themes_map: list,
     profiler,
     reranker,
-    total_users: int,
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     """
     Compute final scores for all items for a single user.
@@ -92,18 +90,22 @@ def compute_per_user_scores(
 
     seen = user_profile.get("past_item_indices", set())
     if seen and len(eligible_indices) > 0:
-        keep = np.array([int(idx) not in seen for idx in eligible_indices], dtype=bool)
+        # np.isin is vectorized C — replaces O(n) Python list comprehension
+        keep = np.isin(eligible_indices, list(seen), invert=True)
         eligible_indices = eligible_indices[keep]
 
     theme_weights   = user_profile.get('theme_weights', {})
     perso_mult      = cfg.perso_match_multiplier
     personalization_scores = np.zeros(item_limit)
-    if len(eligible_indices) > 0:
-        for idx in eligible_indices:
-            themes = item_themes_map[idx]
-            if themes:
-                match = max(theme_weights.get(t, 0.0) for t in themes)
-                personalization_scores[idx] = min(match * perso_mult, 1.0)
+    if len(eligible_indices) > 0 and theme_weights:
+        # List comprehension + bulk assignment replaces per-item for-loop + per-item min()
+        raw = [
+            max((theme_weights.get(t, 0.0) for t in item_themes_map[idx]), default=0.0)
+            for idx in eligible_indices
+        ]
+        personalization_scores[eligible_indices] = np.minimum(
+            np.array(raw, dtype=np.float32) * perso_mult, 1.0
+        )
 
     if len(retrieved_indices) > 0 and np.var(ai_norm[retrieved_indices]) < 0.001:
         ai_norm[retrieved_indices] += np.random.normal(0, 0.001, size=len(retrieved_indices))
@@ -142,7 +144,6 @@ def compute_per_user_scores(
     )
 
     thompson_multipliers = reranker.sample_multipliers(
-        item_ids=item_ids,
         ai_scores=ai_norm,
         pop_scores=popularity_scores,
     )
