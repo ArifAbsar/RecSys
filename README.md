@@ -6,7 +6,7 @@ A data-driven, AI-powered pipeline designed to automatically resolve source data
 
 ## System Architecture
 
-![System Architecture Flow Map](img/Recsys_clean.drawio (1).png)
+![System Architecture Flow Map](img/Recsys_clean.png)
 
 ---
 
