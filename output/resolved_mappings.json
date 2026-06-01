@@ -1,0 +1,2057 @@
+[
+  {
+    "source_table": "data",
+    "source_column": "CustomerID",
+    "status": "NEEDS_REVIEW",
+    "recommended_mapping": {
+      "schema_name": "universal_ecommerce_schema",
+      "field_id": "CUSTOMER.customer_id",
+      "entity": "CUSTOMER",
+      "entity_purpose": "Customer, buyer, account, subscriber, member, or company account.",
+      "entity_covers": [
+        "retail buyer",
+        "B2B account",
+        "subscriber",
+        "member",
+        "guest checkout"
+      ],
+      "entity_business_types": [],
+      "field": "customer_id",
+      "data_type": "string",
+      "semantic_role": "identifier",
+      "description": "Customer primary identifier.",
+      "requirement_level": "universal_required",
+      "required_when": [
+        "always required for this canonical entity row grain"
+      ],
+      "source_system_hints": [
+        "Shopify Customer",
+        "Stripe Customer",
+        "QuickBooks Customer"
+      ],
+      "synonyms": [],
+      "match_priority": "medium",
+      "context_rules": [
+        "Metric 'customer_lifetime_value': Measures net value of a customer across purchases, renewals, and refunds.",
+        "Metric 'repeat_purchase_rate': Measures retention quality for retail, marketplace, subscription-adjacent, and replenishment businesses.",
+        "Metric 'marketing_opt_in_rate': Measures reachable audience for owned marketing while respecting consent rules.",
+        "Rule 'semantic_context_match': Increase confidence when field synonym matches the already recognized entity, e.g. id in PRODUCT table means product_id more than customer_id.",
+        "Rule 'column_cluster_signal': Score table identity based on column groups, e.g. customer_id/email/name -> CUSTOMER, order_id/total/date/status -> TRANSACTION.",
+        "Business Ambiguity Question: What is the best stable customer key: customer_id, account_id, email, phone, loyalty ID, CRM contact ID, or anonymous/session ID?"
+      ],
+      "score": 0.4856300354003906,
+      "final_confidence": 0.8974316716194153,
+      "signals": {
+        "bi_semantic": 0.4856300354003906,
+        "cross_semantic": 0.5663340091705322,
+        "name": 0.9523809523809522,
+        "dtype": 1.0,
+        "table": 0.0,
+        "logic_boost": 0.3
+      },
+      "reasoning": "High confidence: name match, keyword intent match"
+    },
+    "confidence": 0.8974316716194153,
+    "top_candidates": [
+      {
+        "schema_name": "universal_ecommerce_schema",
+        "field_id": "CUSTOMER.customer_id",
+        "entity": "CUSTOMER",
+        "entity_purpose": "Customer, buyer, account, subscriber, member, or company account.",
+        "entity_covers": [
+          "retail buyer",
+          "B2B account",
+          "subscriber",
+          "member",
+          "guest checkout"
+        ],
+        "entity_business_types": [],
+        "field": "customer_id",
+        "data_type": "string",
+        "semantic_role": "identifier",
+        "description": "Customer primary identifier.",
+        "requirement_level": "universal_required",
+        "required_when": [
+          "always required for this canonical entity row grain"
+        ],
+        "source_system_hints": [
+          "Shopify Customer",
+          "Stripe Customer",
+          "QuickBooks Customer"
+        ],
+        "synonyms": [],
+        "match_priority": "medium",
+        "context_rules": [
+          "Metric 'customer_lifetime_value': Measures net value of a customer across purchases, renewals, and refunds.",
+          "Metric 'repeat_purchase_rate': Measures retention quality for retail, marketplace, subscription-adjacent, and replenishment businesses.",
+          "Metric 'marketing_opt_in_rate': Measures reachable audience for owned marketing while respecting consent rules.",
+          "Rule 'semantic_context_match': Increase confidence when field synonym matches the already recognized entity, e.g. id in PRODUCT table means product_id more than customer_id.",
+          "Rule 'column_cluster_signal': Score table identity based on column groups, e.g. customer_id/email/name -> CUSTOMER, order_id/total/date/status -> TRANSACTION.",
+          "Business Ambiguity Question: What is the best stable customer key: customer_id, account_id, email, phone, loyalty ID, CRM contact ID, or anonymous/session ID?"
+        ],
+        "score": 0.4856300354003906,
+        "final_confidence": 0.8974316716194153,
+        "signals": {
+          "bi_semantic": 0.4856300354003906,
+          "cross_semantic": 0.5663340091705322,
+          "name": 0.9523809523809522,
+          "dtype": 1.0,
+          "table": 0.0,
+          "logic_boost": 0.3
+        },
+        "reasoning": "High confidence: name match, keyword intent match"
+      },
+      {
+        "schema_name": "universal_ecommerce_schema",
+        "field_id": "CUSTOMER.customer_status",
+        "entity": "CUSTOMER",
+        "entity_purpose": "Customer, buyer, account, subscriber, member, or company account.",
+        "entity_covers": [
+          "retail buyer",
+          "B2B account",
+          "subscriber",
+          "member",
+          "guest checkout"
+        ],
+        "entity_business_types": [],
+        "field": "customer_status",
+        "data_type": "enum",
+        "semantic_role": "categorical",
+        "description": "Customer lifecycle status such as lead, active, inactive, blocked, churned, or deleted.",
+        "requirement_level": "recommended",
+        "required_when": [],
+        "source_system_hints": [],
+        "synonyms": [],
+        "match_priority": "medium",
+        "context_rules": [
+          "Metric 'churn_rate': Tracks recurring revenue loss, membership drop-off, and customer inactivity.",
+          "Validation 'customer_status_allowed_values': customer_status should map to lead, active, inactive, blocked, churned, deleted, guest, or unknown."
+        ],
+        "score": 0.5545749664306641,
+        "final_confidence": 0.6182528734207153,
+        "signals": {
+          "bi_semantic": 0.5545749664306641,
+          "cross_semantic": 0.592551589012146,
+          "name": 0.8888888888888888,
+          "dtype": 1.0,
+          "table": 0.0,
+          "logic_boost": 0.0
+        },
+        "reasoning": "Medium confidence: name match"
+      },
+      {
+        "schema_name": "universal_ecommerce_schema",
+        "field_id": "CUSTOMER.email",
+        "entity": "CUSTOMER",
+        "entity_purpose": "Customer, buyer, account, subscriber, member, or company account.",
+        "entity_covers": [
+          "retail buyer",
+          "B2B account",
+          "subscriber",
+          "member",
+          "guest checkout"
+        ],
+        "entity_business_types": [],
+        "field": "email",
+        "data_type": "string",
+        "semantic_role": "pii",
+        "description": "Customer email address.",
+        "requirement_level": "conditional_required",
+        "required_when": [
+          "customer communication, marketing attribution, subscription billing, digital delivery, or identity matching is needed",
+          "business_type in [DTC retail, SaaS subscription, subscription box, membership, digital goods]"
+        ],
+        "source_system_hints": [],
+        "synonyms": [],
+        "match_priority": "medium",
+        "context_rules": [
+          "Rule 'value_pattern_match': Use sampled values to detect email, phone, country, amount, quantity, timestamp, SKU, status, rating, URL, tracking number, and coupon patterns.",
+          "Rule 'column_cluster_signal': Score table identity based on column groups, e.g. customer_id/email/name -> CUSTOMER, order_id/total/date/status -> TRANSACTION.",
+          "Rule 'value_distribution_signal': Use value patterns such as emails, SKU-like strings, currency amounts, timestamps, status enums, event names, and tracking numbers.",
+          "Global Validation 'pii_classification': PII fields such as email, phone, name, and address must be tagged before export or model training.",
+          "Validation 'email_format': email should match a valid email-like pattern when present."
+        ],
+        "score": 0.49420756101608276,
+        "final_confidence": 0.5735762119293213,
+        "signals": {
+          "bi_semantic": 0.49420756101608276,
+          "cross_semantic": 0.6667153239250183,
+          "name": 0.4444444444444444,
+          "dtype": 1.0,
+          "table": 0.0,
+          "logic_boost": 0.0
+        },
+        "reasoning": "Low confidence: contextual relevance"
+      },
+      {
+        "schema_name": "universal_ecommerce_schema",
+        "field_id": "CUSTOMER.country",
+        "entity": "CUSTOMER",
+        "entity_purpose": "Customer, buyer, account, subscriber, member, or company account.",
+        "entity_covers": [
+          "retail buyer",
+          "B2B account",
+          "subscriber",
+          "member",
+          "guest checkout"
+        ],
+        "entity_business_types": [],
+        "field": "country",
+        "data_type": "string",
+        "semantic_role": "attribute",
+        "description": "Customer, address, order, or operating country code/name.",
+        "requirement_level": "conditional_required",
+        "required_when": [
+          "cross-border sales, tax, shipping zones, compliance, or regional reporting is needed"
+        ],
+        "source_system_hints": [],
+        "synonyms": [],
+        "match_priority": "medium",
+        "context_rules": [
+          "Rule 'value_pattern_match': Use sampled values to detect email, phone, country, amount, quantity, timestamp, SKU, status, rating, URL, tracking number, and coupon patterns.",
+          "Rule 'advanced_ecommerce_entity_clusters': Recognize advanced operational tables using column clusters such as channel/store/currency, address/postcode/country, checkout/cart/session, tax/jurisdiction/rate, payout/fee/seller, dispute/chargeback/evidence, consent/opt-in, and bundle/component/quantity."
+        ],
+        "score": 0.5616334676742554,
+        "final_confidence": 0.5495713353157043,
+        "signals": {
+          "bi_semantic": 0.5616334676742554,
+          "cross_semantic": 0.5546895265579224,
+          "name": 0.5454545454545454,
+          "dtype": 1.0,
+          "table": 0.0,
+          "logic_boost": 0.0
+        },
+        "reasoning": "Low confidence: weak signal"
+      },
+      {
+        "schema_name": "universal_ecommerce_schema",
+        "field_id": "CONSENT_MARKETING_OPT_IN.customer_id",
+        "entity": "CONSENT_MARKETING_OPT_IN",
+        "entity_purpose": "Customer consent, GDPR/CCPA preference, email/SMS/push opt-in, lawful basis, and marketing suppression policy.",
+        "entity_covers": [
+          "marketing consent",
+          "GDPR consent",
+          "email opt-in",
+          "SMS opt-in",
+          "push opt-in",
+          "privacy preference",
+          "suppression list"
+        ],
+        "entity_business_types": [],
+        "field": "customer_id",
+        "data_type": "string",
+        "semantic_role": "identifier",
+        "description": "Canonical customer id for consent marketing opt in records.",
+        "requirement_level": "conditional_required",
+        "required_when": [
+          "consent belongs to a known customer, subscriber, or account"
+        ],
+        "source_system_hints": [],
+        "synonyms": [],
+        "match_priority": "medium",
+        "context_rules": [
+          "Metric 'customer_lifetime_value': Measures net value of a customer across purchases, renewals, and refunds.",
+          "Metric 'repeat_purchase_rate': Measures retention quality for retail, marketplace, subscription-adjacent, and replenishment businesses.",
+          "Metric 'marketing_opt_in_rate': Measures reachable audience for owned marketing while respecting consent rules.",
+          "Rule 'semantic_context_match': Increase confidence when field synonym matches the already recognized entity, e.g. id in PRODUCT table means product_id more than customer_id.",
+          "Rule 'column_cluster_signal': Score table identity based on column groups, e.g. customer_id/email/name -> CUSTOMER, order_id/total/date/status -> TRANSACTION.",
+          "Business Ambiguity Question: Which consent rules must be enforced before marketing export: email opt-in, SMS opt-in, push opt-in, GDPR/CCPA status, or suppression list?"
+        ],
+        "score": 0.4911620616912842,
+        "final_confidence": 0.5161208510398865,
+        "signals": {
+          "bi_semantic": 0.4911620616912842,
+          "cross_semantic": 0.5609463453292847,
+          "name": 0.9523809523809522,
+          "dtype": 1.0,
+          "table": 0.0,
+          "logic_boost": -0.08
+        },
+        "reasoning": "Low confidence: name match"
+      }
+    ]
+  },
+  {
+    "source_table": "data",
+    "source_column": "Quantity",
+    "status": "NEEDS_REVIEW",
+    "recommended_mapping": {
+      "schema_name": "universal_ecommerce_schema",
+      "field_id": "ORDER_LINE.quantity",
+      "entity": "ORDER_LINE",
+      "entity_purpose": "Transaction detail row: basket item, cart line, invoice line, booking item, fulfillment line, subscription item.",
+      "entity_covers": [
+        "line items",
+        "basket detail",
+        "cart detail",
+        "invoice detail",
+        "subscription item"
+      ],
+      "entity_business_types": [],
+      "field": "quantity",
+      "data_type": "decimal",
+      "semantic_role": "measure",
+      "description": "Ordered, invoiced, booked, returned, shipped, or purchased quantity.",
+      "requirement_level": "conditional_required",
+      "required_when": [
+        "unit economics, basket size, inventory deduction, or product quantity analysis is needed"
+      ],
+      "source_system_hints": [],
+      "synonyms": [],
+      "match_priority": "medium",
+      "context_rules": [
+        "Metric 'gross_margin_amount': Measures absolute profitability after product cost before operating costs.",
+        "Metric 'inventory_turnover': Measures how efficiently stock is converted into sales and flags slow-moving inventory.",
+        "Rule 'value_pattern_match': Use sampled values to detect email, phone, country, amount, quantity, timestamp, SKU, status, rating, URL, tracking number, and coupon patterns.",
+        "Rule 'advanced_ecommerce_entity_clusters': Recognize advanced operational tables using column clusters such as channel/store/currency, address/postcode/country, checkout/cart/session, tax/jurisdiction/rate, payout/fee/seller, dispute/chargeback/evidence, consent/opt-in, and bundle/component/quantity.",
+        "Validation 'quantity_valid': quantity should be > 0 for sales lines and < 0 only for credit/reversal lines by policy.",
+        "Validation 'line_total_formula': line_total_amount should approximately equal quantity * unit_price minus line discount plus tax if tax-inclusive policy applies.",
+        "Business Ambiguity Question: Do bundles/kits have their own SKU, or should bundle components be exploded into child order lines?",
+        "Business Ambiguity Question: Do orders contain products from one seller or multiple sellers?",
+        "Business Ambiguity Question: Should tax be reported by order header, line item, jurisdiction, rate, or tax authority?",
+        "Business Ambiguity Question: For bundles/kits/subscription boxes, should revenue, margin, and inventory be allocated to parent bundle, components, or both?"
+      ],
+      "score": 0.48945778608322144,
+      "final_confidence": 0.7697022557258606,
+      "signals": {
+        "bi_semantic": 0.48945778608322144,
+        "cross_semantic": 0.5946755409240723,
+        "name": 1.0,
+        "dtype": 0.0,
+        "table": 0.0,
+        "logic_boost": 0.2
+      },
+      "reasoning": "Medium confidence: name match, keyword intent match"
+    },
+    "confidence": 0.7697022557258606,
+    "top_candidates": [
+      {
+        "schema_name": "universal_ecommerce_schema",
+        "field_id": "ORDER_LINE.quantity",
+        "entity": "ORDER_LINE",
+        "entity_purpose": "Transaction detail row: basket item, cart line, invoice line, booking item, fulfillment line, subscription item.",
+        "entity_covers": [
+          "line items",
+          "basket detail",
+          "cart detail",
+          "invoice detail",
+          "subscription item"
+        ],
+        "entity_business_types": [],
+        "field": "quantity",
+        "data_type": "decimal",
+        "semantic_role": "measure",
+        "description": "Ordered, invoiced, booked, returned, shipped, or purchased quantity.",
+        "requirement_level": "conditional_required",
+        "required_when": [
+          "unit economics, basket size, inventory deduction, or product quantity analysis is needed"
+        ],
+        "source_system_hints": [],
+        "synonyms": [],
+        "match_priority": "medium",
+        "context_rules": [
+          "Metric 'gross_margin_amount': Measures absolute profitability after product cost before operating costs.",
+          "Metric 'inventory_turnover': Measures how efficiently stock is converted into sales and flags slow-moving inventory.",
+          "Rule 'value_pattern_match': Use sampled values to detect email, phone, country, amount, quantity, timestamp, SKU, status, rating, URL, tracking number, and coupon patterns.",
+          "Rule 'advanced_ecommerce_entity_clusters': Recognize advanced operational tables using column clusters such as channel/store/currency, address/postcode/country, checkout/cart/session, tax/jurisdiction/rate, payout/fee/seller, dispute/chargeback/evidence, consent/opt-in, and bundle/component/quantity.",
+          "Validation 'quantity_valid': quantity should be > 0 for sales lines and < 0 only for credit/reversal lines by policy.",
+          "Validation 'line_total_formula': line_total_amount should approximately equal quantity * unit_price minus line discount plus tax if tax-inclusive policy applies.",
+          "Business Ambiguity Question: Do bundles/kits have their own SKU, or should bundle components be exploded into child order lines?",
+          "Business Ambiguity Question: Do orders contain products from one seller or multiple sellers?",
+          "Business Ambiguity Question: Should tax be reported by order header, line item, jurisdiction, rate, or tax authority?",
+          "Business Ambiguity Question: For bundles/kits/subscription boxes, should revenue, margin, and inventory be allocated to parent bundle, components, or both?"
+        ],
+        "score": 0.48945778608322144,
+        "final_confidence": 0.7697022557258606,
+        "signals": {
+          "bi_semantic": 0.48945778608322144,
+          "cross_semantic": 0.5946755409240723,
+          "name": 1.0,
+          "dtype": 0.0,
+          "table": 0.0,
+          "logic_boost": 0.2
+        },
+        "reasoning": "Medium confidence: name match, keyword intent match"
+      },
+      {
+        "schema_name": "universal_ecommerce_schema",
+        "field_id": "WAREHOUSE_STOCK_MOVEMENT.quantity_delta",
+        "entity": "WAREHOUSE_STOCK_MOVEMENT",
+        "entity_purpose": "Warehouse, bin, stock movement, inventory adjustment, receiving, transfer, reservation, and audit trail.",
+        "entity_covers": [
+          "warehouse",
+          "bin location",
+          "stock movement",
+          "inventory adjustment",
+          "receiving",
+          "transfer",
+          "reservation"
+        ],
+        "entity_business_types": [],
+        "field": "quantity_delta",
+        "data_type": "integer",
+        "semantic_role": "attribute",
+        "description": "Canonical quantity delta for warehouse stock movement records.",
+        "requirement_level": "conditional_required",
+        "required_when": [
+          "inventory movement, stock adjustment, or audit trail is needed"
+        ],
+        "source_system_hints": [],
+        "synonyms": [],
+        "match_priority": "medium",
+        "context_rules": [
+          "Metric 'stock_movement_variance': Detects stock ledger errors, shrinkage, missing transfers, or adjustment anomalies.",
+          "Business Ambiguity Question: Do you need inventory from snapshot stock only, stock movement ledger only, or both?",
+          "Business Ambiguity Question: Do purchase orders represent supplier procurement, dropship orders, replenishment, or manufacturing inputs?",
+          "Business Ambiguity Question: Do you need warehouse/inventory/fulfillment reporting, or are products delivered digitally/no-stock?"
+        ],
+        "score": 0.4371757507324219,
+        "final_confidence": 0.495189368724823,
+        "signals": {
+          "bi_semantic": 0.4371757507324219,
+          "cross_semantic": 0.5317907929420471,
+          "name": 1.0,
+          "dtype": 1.0,
+          "table": 0.0,
+          "logic_boost": -0.08
+        },
+        "reasoning": "Low confidence: name match"
+      },
+      {
+        "schema_name": "universal_ecommerce_schema",
+        "field_id": "SUPPLIER.minimum_order_quantity",
+        "entity": "SUPPLIER",
+        "entity_purpose": "Upstream supply party and procurement terms: supplier, manufacturer, distributor, dropshipper, MOQ, and lead time.",
+        "entity_covers": [
+          "dropshipping",
+          "procurement",
+          "MOQ",
+          "supplier lead time",
+          "manufacturer"
+        ],
+        "entity_business_types": [],
+        "field": "minimum_order_quantity",
+        "data_type": "decimal",
+        "semantic_role": "measure",
+        "description": "Supplier MOQ or minimum purchase quantity.",
+        "requirement_level": "conditional_required",
+        "required_when": [
+          "MOQ, wholesale procurement, or reorder optimization is needed"
+        ],
+        "source_system_hints": [],
+        "synonyms": [],
+        "match_priority": "medium",
+        "context_rules": [
+          "Validation 'moq_non_negative': minimum_order_quantity should be >= 0 or >= 1 depending on supplier policy.",
+          "Business Ambiguity Question: Do you track inventory by warehouse, store, bin, 3PL, supplier, virtual location, or dropship vendor?",
+          "Business Ambiguity Question: Do purchase orders, supplier lead times, MOQ, or replenishment rules exist in the source data?",
+          "Business Ambiguity Question: Do purchase orders represent supplier procurement, dropship orders, replenishment, or manufacturing inputs?"
+        ],
+        "score": 0.4538348317146301,
+        "final_confidence": 0.48212307691574097,
+        "signals": {
+          "bi_semantic": 0.4538348317146301,
+          "cross_semantic": 0.597328782081604,
+          "name": 1.0,
+          "dtype": 0.0,
+          "table": 0.0,
+          "logic_boost": -0.08
+        },
+        "reasoning": "Low confidence: name match"
+      },
+      {
+        "schema_name": "universal_ecommerce_schema",
+        "field_id": "ORDER_LINE.variant_id",
+        "entity": "ORDER_LINE",
+        "entity_purpose": "Transaction detail row: basket item, cart line, invoice line, booking item, fulfillment line, subscription item.",
+        "entity_covers": [
+          "line items",
+          "basket detail",
+          "cart detail",
+          "invoice detail",
+          "subscription item"
+        ],
+        "entity_business_types": [],
+        "field": "variant_id",
+        "data_type": "string",
+        "semantic_role": "identifier",
+        "description": "Variant or option-level identifier for size, color, package, plan tier, or configuration.",
+        "requirement_level": "conditional_required",
+        "required_when": [
+          "variant/SKU-level sales, size/color analysis, WMS, or item-level returns are used"
+        ],
+        "source_system_hints": [
+          "Shopify ProductVariant"
+        ],
+        "synonyms": [],
+        "match_priority": "medium",
+        "context_rules": [
+          "Rule 'product_vs_variant': If product_id repeats across SKUs, use variant_id or sku as the sellable item grain for product performance and inventory.",
+          "Business Ambiguity Question: Do bundles/kits have their own SKU, or should bundle components be exploded into child order lines?",
+          "Business Ambiguity Question: Do orders contain products from one seller or multiple sellers?",
+          "Business Ambiguity Question: Should tax be reported by order header, line item, jurisdiction, rate, or tax authority?",
+          "Business Ambiguity Question: For bundles/kits/subscription boxes, should revenue, margin, and inventory be allocated to parent bundle, components, or both?"
+        ],
+        "score": 0.34743693470954895,
+        "final_confidence": 0.48051366209983826,
+        "signals": {
+          "bi_semantic": 0.34743693470954895,
+          "cross_semantic": 0.515880286693573,
+          "name": 0.5714285714285714,
+          "dtype": 1.0,
+          "table": 0.0,
+          "logic_boost": 0.0
+        },
+        "reasoning": "Low confidence: weak signal"
+      },
+      {
+        "schema_name": "universal_ecommerce_schema",
+        "field_id": "ORDER_LINE.unit_price",
+        "entity": "ORDER_LINE",
+        "entity_purpose": "Transaction detail row: basket item, cart line, invoice line, booking item, fulfillment line, subscription item.",
+        "entity_covers": [
+          "line items",
+          "basket detail",
+          "cart detail",
+          "invoice detail",
+          "subscription item"
+        ],
+        "entity_business_types": [],
+        "field": "unit_price",
+        "data_type": "decimal",
+        "semantic_role": "measure",
+        "description": "Base selling price per unit before line-level quantity multiplication.",
+        "requirement_level": "conditional_required",
+        "required_when": [
+          "line revenue reconstruction, price variance, discount analysis, or quotes are needed"
+        ],
+        "source_system_hints": [],
+        "synonyms": [],
+        "match_priority": "medium",
+        "context_rules": [
+          "Validation 'line_total_formula': line_total_amount should approximately equal quantity * unit_price minus line discount plus tax if tax-inclusive policy applies.",
+          "Business Ambiguity Question: Do bundles/kits have their own SKU, or should bundle components be exploded into child order lines?",
+          "Business Ambiguity Question: Do orders contain products from one seller or multiple sellers?",
+          "Business Ambiguity Question: Should tax be reported by order header, line item, jurisdiction, rate, or tax authority?",
+          "Business Ambiguity Question: For bundles/kits/subscription boxes, should revenue, margin, and inventory be allocated to parent bundle, components, or both?"
+        ],
+        "score": 0.38019153475761414,
+        "final_confidence": 0.4736146032810211,
+        "signals": {
+          "bi_semantic": 0.38019153475761414,
+          "cross_semantic": 0.5571334362030029,
+          "name": 0.6666666666666667,
+          "dtype": 0.0,
+          "table": 0.0,
+          "logic_boost": 0.0
+        },
+        "reasoning": "Low confidence: weak signal"
+      }
+    ]
+  },
+  {
+    "source_table": "data",
+    "source_column": "UnitPrice",
+    "status": "NEEDS_REVIEW",
+    "recommended_mapping": {
+      "schema_name": "universal_ecommerce_schema",
+      "field_id": "PRODUCT.unit_price",
+      "entity": "PRODUCT",
+      "entity_purpose": "Sellable catalog object: item, variant, SKU, plan, bundle, digital asset, rental asset, or service.",
+      "entity_covers": [
+        "physical goods",
+        "digital goods",
+        "subscription plan",
+        "bundle",
+        "rental",
+        "service",
+        "gift card"
+      ],
+      "entity_business_types": [],
+      "field": "unit_price",
+      "data_type": "decimal",
+      "semantic_role": "measure",
+      "description": "Base selling price per unit before line-level quantity multiplication.",
+      "requirement_level": "conditional_required",
+      "required_when": [
+        "pricing, revenue, quote, or order-line reconstruction is needed"
+      ],
+      "source_system_hints": [],
+      "synonyms": [],
+      "match_priority": "medium",
+      "context_rules": [
+        "Validation 'unit_price_non_negative': unit_price must be >= 0.",
+        "Business Ambiguity Question: Do you use fixed pricing, customer-specific pricing, B2B price lists, bulk tiers, negotiated pricing, or dynamic pricing?",
+        "Business Ambiguity Question: For bundles/kits/subscription boxes, should revenue, margin, and inventory be allocated to parent bundle, components, or both?",
+        "Business Ambiguity Question: Do you sell physical inventory, digital goods, services, subscription plans, bundles/kits, rentals/bookings, or a mix?"
+      ],
+      "score": 0.4581395089626312,
+      "final_confidence": 0.710551917552948,
+      "signals": {
+        "bi_semantic": 0.4581395089626312,
+        "cross_semantic": 0.5078235268592834,
+        "name": 0.9473684210526316,
+        "dtype": 0.0,
+        "table": 0.0,
+        "logic_boost": 0.2
+      },
+      "reasoning": "Medium confidence: name match, keyword intent match"
+    },
+    "confidence": 0.710551917552948,
+    "top_candidates": [
+      {
+        "schema_name": "universal_ecommerce_schema",
+        "field_id": "PRODUCT.unit_price",
+        "entity": "PRODUCT",
+        "entity_purpose": "Sellable catalog object: item, variant, SKU, plan, bundle, digital asset, rental asset, or service.",
+        "entity_covers": [
+          "physical goods",
+          "digital goods",
+          "subscription plan",
+          "bundle",
+          "rental",
+          "service",
+          "gift card"
+        ],
+        "entity_business_types": [],
+        "field": "unit_price",
+        "data_type": "decimal",
+        "semantic_role": "measure",
+        "description": "Base selling price per unit before line-level quantity multiplication.",
+        "requirement_level": "conditional_required",
+        "required_when": [
+          "pricing, revenue, quote, or order-line reconstruction is needed"
+        ],
+        "source_system_hints": [],
+        "synonyms": [],
+        "match_priority": "medium",
+        "context_rules": [
+          "Validation 'unit_price_non_negative': unit_price must be >= 0.",
+          "Business Ambiguity Question: Do you use fixed pricing, customer-specific pricing, B2B price lists, bulk tiers, negotiated pricing, or dynamic pricing?",
+          "Business Ambiguity Question: For bundles/kits/subscription boxes, should revenue, margin, and inventory be allocated to parent bundle, components, or both?",
+          "Business Ambiguity Question: Do you sell physical inventory, digital goods, services, subscription plans, bundles/kits, rentals/bookings, or a mix?"
+        ],
+        "score": 0.4581395089626312,
+        "final_confidence": 0.710551917552948,
+        "signals": {
+          "bi_semantic": 0.4581395089626312,
+          "cross_semantic": 0.5078235268592834,
+          "name": 0.9473684210526316,
+          "dtype": 0.0,
+          "table": 0.0,
+          "logic_boost": 0.2
+        },
+        "reasoning": "Medium confidence: name match, keyword intent match"
+      },
+      {
+        "schema_name": "universal_ecommerce_schema",
+        "field_id": "PRODUCT.sku",
+        "entity": "PRODUCT",
+        "entity_purpose": "Sellable catalog object: item, variant, SKU, plan, bundle, digital asset, rental asset, or service.",
+        "entity_covers": [
+          "physical goods",
+          "digital goods",
+          "subscription plan",
+          "bundle",
+          "rental",
+          "service",
+          "gift card"
+        ],
+        "entity_business_types": [],
+        "field": "sku",
+        "data_type": "string",
+        "semantic_role": "identifier",
+        "description": "Stock keeping unit or sellable item code.",
+        "requirement_level": "conditional_required",
+        "required_when": [
+          "physical goods, warehouse operations, barcode scanning, marketplace listing, or fulfillment is used"
+        ],
+        "source_system_hints": [
+          "Shopify ProductVariant",
+          "SAP Commerce Product"
+        ],
+        "synonyms": [],
+        "match_priority": "medium",
+        "context_rules": [
+          "Rule 'value_pattern_match': Use sampled values to detect email, phone, country, amount, quantity, timestamp, SKU, status, rating, URL, tracking number, and coupon patterns.",
+          "Rule 'product_vs_variant': If product_id repeats across SKUs, use variant_id or sku as the sellable item grain for product performance and inventory.",
+          "Rule 'value_distribution_signal': Use value patterns such as emails, SKU-like strings, currency amounts, timestamps, status enums, event names, and tracking numbers.",
+          "Validation 'sku_uniqueness': sku should be unique at variant level when sku exists.",
+          "Business Ambiguity Question: Is your product grain product-level, variant-level, SKU-level, bundle-level, service-level, or subscription-plan-level?",
+          "Business Ambiguity Question: For bundles/kits/subscription boxes, should revenue, margin, and inventory be allocated to parent bundle, components, or both?",
+          "Business Ambiguity Question: Do you sell physical inventory, digital goods, services, subscription plans, bundles/kits, rentals/bookings, or a mix?"
+        ],
+        "score": 0.44493693113327026,
+        "final_confidence": 0.5573696494102478,
+        "signals": {
+          "bi_semantic": 0.44493693113327026,
+          "cross_semantic": 0.6422708034515381,
+          "name": 0.5,
+          "dtype": 1.0,
+          "table": 0.0,
+          "logic_boost": 0.0
+        },
+        "reasoning": "Low confidence: contextual relevance"
+      },
+      {
+        "schema_name": "universal_ecommerce_schema",
+        "field_id": "PRODUCT.variant_id",
+        "entity": "PRODUCT",
+        "entity_purpose": "Sellable catalog object: item, variant, SKU, plan, bundle, digital asset, rental asset, or service.",
+        "entity_covers": [
+          "physical goods",
+          "digital goods",
+          "subscription plan",
+          "bundle",
+          "rental",
+          "service",
+          "gift card"
+        ],
+        "entity_business_types": [],
+        "field": "variant_id",
+        "data_type": "string",
+        "semantic_role": "identifier",
+        "description": "Variant or option-level identifier for size, color, package, plan tier, or configuration.",
+        "requirement_level": "conditional_required",
+        "required_when": [
+          "SKU/variant-level catalog, size/color options, WMS, or variant-level inventory is used"
+        ],
+        "source_system_hints": [
+          "Shopify ProductVariant"
+        ],
+        "synonyms": [],
+        "match_priority": "medium",
+        "context_rules": [
+          "Rule 'product_vs_variant': If product_id repeats across SKUs, use variant_id or sku as the sellable item grain for product performance and inventory.",
+          "Business Ambiguity Question: Is your product grain product-level, variant-level, SKU-level, bundle-level, service-level, or subscription-plan-level?",
+          "Business Ambiguity Question: For bundles/kits/subscription boxes, should revenue, margin, and inventory be allocated to parent bundle, components, or both?",
+          "Business Ambiguity Question: Do you sell physical inventory, digital goods, services, subscription plans, bundles/kits, rentals/bookings, or a mix?"
+        ],
+        "score": 0.3423975706100464,
+        "final_confidence": 0.5241491198539734,
+        "signals": {
+          "bi_semantic": 0.3423975706100464,
+          "cross_semantic": 0.648527979850769,
+          "name": 0.4285714285714286,
+          "dtype": 1.0,
+          "table": 0.0,
+          "logic_boost": 0.0
+        },
+        "reasoning": "Low confidence: contextual relevance"
+      },
+      {
+        "schema_name": "universal_ecommerce_schema",
+        "field_id": "PRODUCT.supplier_id",
+        "entity": "PRODUCT",
+        "entity_purpose": "Sellable catalog object: item, variant, SKU, plan, bundle, digital asset, rental asset, or service.",
+        "entity_covers": [
+          "physical goods",
+          "digital goods",
+          "subscription plan",
+          "bundle",
+          "rental",
+          "service",
+          "gift card"
+        ],
+        "entity_business_types": [],
+        "field": "supplier_id",
+        "data_type": "string",
+        "semantic_role": "identifier",
+        "description": "Supplier, vendor, dropshipper, procurement source, or manufacturer identifier.",
+        "requirement_level": "conditional_required",
+        "required_when": [
+          "procurement, dropshipping, supplier performance, purchase orders, or landed-cost analytics is needed"
+        ],
+        "source_system_hints": [],
+        "synonyms": [],
+        "match_priority": "medium",
+        "context_rules": [
+          "Metric 'purchase_order_fill_rate': Measures supplier reliability and inbound replenishment quality.",
+          "Rule 'order_table_priority': Tables named 'orders' or 'order' should be prioritized as TRANSACTION (sales) rather than PURCHASE_ORDER (procurement) unless columns like 'supplier_id' or 'vendor' are present.",
+          "Business Ambiguity Question: For bundles/kits/subscription boxes, should revenue, margin, and inventory be allocated to parent bundle, components, or both?",
+          "Business Ambiguity Question: Do you sell physical inventory, digital goods, services, subscription plans, bundles/kits, rentals/bookings, or a mix?"
+        ],
+        "score": 0.40930062532424927,
+        "final_confidence": 0.5115047097206116,
+        "signals": {
+          "bi_semantic": 0.40930062532424927,
+          "cross_semantic": 0.5683591365814209,
+          "name": 0.5,
+          "dtype": 1.0,
+          "table": 0.0,
+          "logic_boost": 0.0
+        },
+        "reasoning": "Low confidence: weak signal"
+      },
+      {
+        "schema_name": "universal_ecommerce_schema",
+        "field_id": "PRODUCT.product_id",
+        "entity": "PRODUCT",
+        "entity_purpose": "Sellable catalog object: item, variant, SKU, plan, bundle, digital asset, rental asset, or service.",
+        "entity_covers": [
+          "physical goods",
+          "digital goods",
+          "subscription plan",
+          "bundle",
+          "rental",
+          "service",
+          "gift card"
+        ],
+        "entity_business_types": [],
+        "field": "product_id",
+        "data_type": "string",
+        "semantic_role": "identifier",
+        "description": "Product, catalog item, SKU group, plan, asset, or service identifier.",
+        "requirement_level": "universal_required",
+        "required_when": [
+          "always required for this canonical entity row grain"
+        ],
+        "source_system_hints": [
+          "Shopify Product",
+          "QuickBooks Item",
+          "SAP Commerce Product"
+        ],
+        "synonyms": [],
+        "match_priority": "medium",
+        "context_rules": [
+          "Metric 'inventory_turnover': Measures how efficiently stock is converted into sales and flags slow-moving inventory.",
+          "Rule 'semantic_context_match': Increase confidence when field synonym matches the already recognized entity, e.g. id in PRODUCT table means product_id more than customer_id.",
+          "Rule 'product_vs_variant': If product_id repeats across SKUs, use variant_id or sku as the sellable item grain for product performance and inventory.",
+          "Business Ambiguity Question: Is your product grain product-level, variant-level, SKU-level, bundle-level, service-level, or subscription-plan-level?",
+          "Business Ambiguity Question: For bundles/kits/subscription boxes, should revenue, margin, and inventory be allocated to parent bundle, components, or both?",
+          "Business Ambiguity Question: Do you sell physical inventory, digital goods, services, subscription plans, bundles/kits, rentals/bookings, or a mix?"
+        ],
+        "score": 0.36945080757141113,
+        "final_confidence": 0.5001642107963562,
+        "signals": {
+          "bi_semantic": 0.36945080757141113,
+          "cross_semantic": 0.5956029891967773,
+          "name": 0.4,
+          "dtype": 1.0,
+          "table": 0.0,
+          "logic_boost": 0.0
+        },
+        "reasoning": "Low confidence: weak signal"
+      }
+    ]
+  },
+  {
+    "source_table": "data",
+    "source_column": "Country",
+    "status": "NEEDS_REVIEW",
+    "recommended_mapping": {
+      "schema_name": "universal_ecommerce_schema",
+      "field_id": "ADDRESS_LOCATION.country_code",
+      "entity": "ADDRESS_LOCATION",
+      "entity_purpose": "Normalized address and location table for customer, billing, shipping, warehouse, pickup, seller, and tax jurisdictions.",
+      "entity_covers": [
+        "billing address",
+        "shipping address",
+        "pickup address",
+        "tax jurisdiction",
+        "warehouse location",
+        "customer location",
+        "seller address"
+      ],
+      "entity_business_types": [],
+      "field": "country_code",
+      "data_type": "string",
+      "semantic_role": "location",
+      "description": "Canonical country code for address location records.",
+      "requirement_level": "conditional_required",
+      "required_when": [
+        "cross-border sales, tax, GDPR/region, shipping, or currency logic is needed"
+      ],
+      "source_system_hints": [],
+      "synonyms": [],
+      "match_priority": "medium",
+      "context_rules": [],
+      "score": 0.549303412437439,
+      "final_confidence": 0.7073454260826111,
+      "signals": {
+        "bi_semantic": 0.549303412437439,
+        "cross_semantic": 0.3400391638278961,
+        "name": 1.0,
+        "dtype": 1.0,
+        "table": 0.0,
+        "logic_boost": 0.2
+      },
+      "reasoning": "Medium confidence: name match, keyword intent match"
+    },
+    "confidence": 0.7073454260826111,
+    "top_candidates": [
+      {
+        "schema_name": "universal_ecommerce_schema",
+        "field_id": "ADDRESS_LOCATION.country_code",
+        "entity": "ADDRESS_LOCATION",
+        "entity_purpose": "Normalized address and location table for customer, billing, shipping, warehouse, pickup, seller, and tax jurisdictions.",
+        "entity_covers": [
+          "billing address",
+          "shipping address",
+          "pickup address",
+          "tax jurisdiction",
+          "warehouse location",
+          "customer location",
+          "seller address"
+        ],
+        "entity_business_types": [],
+        "field": "country_code",
+        "data_type": "string",
+        "semantic_role": "location",
+        "description": "Canonical country code for address location records.",
+        "requirement_level": "conditional_required",
+        "required_when": [
+          "cross-border sales, tax, GDPR/region, shipping, or currency logic is needed"
+        ],
+        "source_system_hints": [],
+        "synonyms": [],
+        "match_priority": "medium",
+        "context_rules": [],
+        "score": 0.549303412437439,
+        "final_confidence": 0.7073454260826111,
+        "signals": {
+          "bi_semantic": 0.549303412437439,
+          "cross_semantic": 0.3400391638278961,
+          "name": 1.0,
+          "dtype": 1.0,
+          "table": 0.0,
+          "logic_boost": 0.2
+        },
+        "reasoning": "Medium confidence: name match, keyword intent match"
+      },
+      {
+        "schema_name": "universal_ecommerce_schema",
+        "field_id": "CUSTOMER.country",
+        "entity": "CUSTOMER",
+        "entity_purpose": "Customer, buyer, account, subscriber, member, or company account.",
+        "entity_covers": [
+          "retail buyer",
+          "B2B account",
+          "subscriber",
+          "member",
+          "guest checkout"
+        ],
+        "entity_business_types": [],
+        "field": "country",
+        "data_type": "string",
+        "semantic_role": "attribute",
+        "description": "Customer, address, order, or operating country code/name.",
+        "requirement_level": "conditional_required",
+        "required_when": [
+          "cross-border sales, tax, shipping zones, compliance, or regional reporting is needed"
+        ],
+        "source_system_hints": [],
+        "synonyms": [],
+        "match_priority": "medium",
+        "context_rules": [
+          "Rule 'value_pattern_match': Use sampled values to detect email, phone, country, amount, quantity, timestamp, SKU, status, rating, URL, tracking number, and coupon patterns.",
+          "Rule 'advanced_ecommerce_entity_clusters': Recognize advanced operational tables using column clusters such as channel/store/currency, address/postcode/country, checkout/cart/session, tax/jurisdiction/rate, payout/fee/seller, dispute/chargeback/evidence, consent/opt-in, and bundle/component/quantity."
+        ],
+        "score": 0.5568315982818604,
+        "final_confidence": 0.5315613746643066,
+        "signals": {
+          "bi_semantic": 0.5568315982818604,
+          "cross_semantic": 0.5447069406509399,
+          "name": 1.0,
+          "dtype": 1.0,
+          "table": 0.0,
+          "logic_boost": -0.08
+        },
+        "reasoning": "Low confidence: name match"
+      },
+      {
+        "schema_name": "universal_ecommerce_schema",
+        "field_id": "STORE_CHANNEL.currency",
+        "entity": "STORE_CHANNEL",
+        "entity_purpose": "Storefront, channel, sales touchpoint, marketplace listing source, POS location, app, or region used to sell products.",
+        "entity_covers": [
+          "web store",
+          "mobile app",
+          "POS store",
+          "marketplace channel",
+          "social commerce channel",
+          "B2B portal",
+          "sales region"
+        ],
+        "entity_business_types": [],
+        "field": "currency",
+        "data_type": "string",
+        "semantic_role": "attribute",
+        "description": "Canonical currency for store channel records.",
+        "requirement_level": "conditional_required",
+        "required_when": [
+          "multi-currency channel reporting or accounting is used"
+        ],
+        "source_system_hints": [],
+        "synonyms": [],
+        "match_priority": "medium",
+        "context_rules": [
+          "Rule 'value_distribution_signal': Use value patterns such as emails, SKU-like strings, currency amounts, timestamps, status enums, event names, and tracking numbers.",
+          "Rule 'advanced_ecommerce_entity_clusters': Recognize advanced operational tables using column clusters such as channel/store/currency, address/postcode/country, checkout/cart/session, tax/jurisdiction/rate, payout/fee/seller, dispute/chargeback/evidence, consent/opt-in, and bundle/component/quantity.",
+          "Global Validation 'currency_consistency': Money fields must have a currency or inherit one from transaction/account/store context.",
+          "Business Ambiguity Question: Do stores/channels have separate currencies, tax regions, warehouses, or reporting targets?"
+        ],
+        "score": 0.5053907632827759,
+        "final_confidence": 0.47094976902008057,
+        "signals": {
+          "bi_semantic": 0.5053907632827759,
+          "cross_semantic": 0.5692040920257568,
+          "name": 0.6,
+          "dtype": 1.0,
+          "table": 0.0,
+          "logic_boost": -0.08
+        },
+        "reasoning": "Low confidence: weak signal"
+      },
+      {
+        "schema_name": "universal_ecommerce_schema",
+        "field_id": "ADDRESS_LOCATION.customer_id",
+        "entity": "ADDRESS_LOCATION",
+        "entity_purpose": "Normalized address and location table for customer, billing, shipping, warehouse, pickup, seller, and tax jurisdictions.",
+        "entity_covers": [
+          "billing address",
+          "shipping address",
+          "pickup address",
+          "tax jurisdiction",
+          "warehouse location",
+          "customer location",
+          "seller address"
+        ],
+        "entity_business_types": [],
+        "field": "customer_id",
+        "data_type": "string",
+        "semantic_role": "identifier",
+        "description": "Canonical customer id for address location records.",
+        "requirement_level": "conditional_required",
+        "required_when": [
+          "address belongs to customer profile or account book"
+        ],
+        "source_system_hints": [],
+        "synonyms": [],
+        "match_priority": "medium",
+        "context_rules": [
+          "Metric 'customer_lifetime_value': Measures net value of a customer across purchases, renewals, and refunds.",
+          "Metric 'repeat_purchase_rate': Measures retention quality for retail, marketplace, subscription-adjacent, and replenishment businesses.",
+          "Metric 'marketing_opt_in_rate': Measures reachable audience for owned marketing while respecting consent rules.",
+          "Rule 'semantic_context_match': Increase confidence when field synonym matches the already recognized entity, e.g. id in PRODUCT table means product_id more than customer_id.",
+          "Rule 'column_cluster_signal': Score table identity based on column groups, e.g. customer_id/email/name -> CUSTOMER, order_id/total/date/status -> TRANSACTION."
+        ],
+        "score": 0.42447924613952637,
+        "final_confidence": 0.4689218997955322,
+        "signals": {
+          "bi_semantic": 0.42447924613952637,
+          "cross_semantic": 0.4619678556919098,
+          "name": 0.5454545454545454,
+          "dtype": 1.0,
+          "table": 0.0,
+          "logic_boost": 0.0
+        },
+        "reasoning": "Low confidence: weak signal"
+      },
+      {
+        "schema_name": "universal_ecommerce_schema",
+        "field_id": "TAX.jurisdiction",
+        "entity": "TAX",
+        "entity_purpose": "Tax lines, rates, jurisdictions, VAT/GST/sales-tax amounts, exemptions, and tax reconciliation detail.",
+        "entity_covers": [
+          "sales tax",
+          "VAT",
+          "GST",
+          "tax line",
+          "tax jurisdiction",
+          "tax exemption",
+          "tax reporting"
+        ],
+        "entity_business_types": [],
+        "field": "jurisdiction",
+        "data_type": "string",
+        "semantic_role": "attribute",
+        "description": "Canonical jurisdiction for tax records.",
+        "requirement_level": "conditional_required",
+        "required_when": [
+          "sales tax, VAT/GST, tax nexus, or regional tax reporting is needed"
+        ],
+        "source_system_hints": [],
+        "synonyms": [],
+        "match_priority": "medium",
+        "context_rules": [
+          "Metric 'effective_tax_rate': Checks tax collection consistency across regions, channels, and product categories.",
+          "Rule 'advanced_ecommerce_entity_clusters': Recognize advanced operational tables using column clusters such as channel/store/currency, address/postcode/country, checkout/cart/session, tax/jurisdiction/rate, payout/fee/seller, dispute/chargeback/evidence, consent/opt-in, and bundle/component/quantity.",
+          "Business Ambiguity Question: Do stores/channels have separate currencies, tax regions, warehouses, or reporting targets?",
+          "Business Ambiguity Question: Should location reporting use customer address, shipping address, billing address, store location, or warehouse location?",
+          "Business Ambiguity Question: Should tax be reported by order header, line item, jurisdiction, rate, or tax authority?",
+          "Business Ambiguity Question: Do you require tax, invoice, VAT/GST/sales-tax, exemption, or accounting reconciliation?"
+        ],
+        "score": 0.4215925335884094,
+        "final_confidence": 0.46182960271835327,
+        "signals": {
+          "bi_semantic": 0.4215925335884094,
+          "cross_semantic": 0.6228628754615784,
+          "name": 0.5,
+          "dtype": 1.0,
+          "table": 0.0,
+          "logic_boost": -0.08
+        },
+        "reasoning": "Low confidence: contextual relevance"
+      }
+    ]
+  },
+  {
+    "source_table": "data",
+    "source_column": "Description",
+    "status": "NEEDS_REVIEW",
+    "recommended_mapping": {
+      "schema_name": "universal_ecommerce_schema",
+      "field_id": "PRODUCT.product_name",
+      "entity": "PRODUCT",
+      "entity_purpose": "Sellable catalog object: item, variant, SKU, plan, bundle, digital asset, rental asset, or service.",
+      "entity_covers": [
+        "physical goods",
+        "digital goods",
+        "subscription plan",
+        "bundle",
+        "rental",
+        "service",
+        "gift card"
+      ],
+      "entity_business_types": [],
+      "field": "product_name",
+      "data_type": "string",
+      "semantic_role": "attribute",
+      "description": "Product title, item name, service name, digital product name, or plan label.",
+      "requirement_level": "recommended",
+      "required_when": [],
+      "source_system_hints": [],
+      "synonyms": [],
+      "match_priority": "medium",
+      "context_rules": [
+        "Business Ambiguity Question: For bundles/kits/subscription boxes, should revenue, margin, and inventory be allocated to parent bundle, components, or both?",
+        "Business Ambiguity Question: Do you sell physical inventory, digital goods, services, subscription plans, bundles/kits, rentals/bookings, or a mix?"
+      ],
+      "score": 0.38285619020462036,
+      "final_confidence": 0.699406623840332,
+      "signals": {
+        "bi_semantic": 0.38285619020462036,
+        "cross_semantic": 0.5873851776123047,
+        "name": 0.4,
+        "dtype": 1.0,
+        "table": 0.0,
+        "logic_boost": 0.2
+      },
+      "reasoning": "Medium confidence: keyword intent match"
+    },
+    "confidence": 0.699406623840332,
+    "top_candidates": [
+      {
+        "schema_name": "universal_ecommerce_schema",
+        "field_id": "PRODUCT.product_name",
+        "entity": "PRODUCT",
+        "entity_purpose": "Sellable catalog object: item, variant, SKU, plan, bundle, digital asset, rental asset, or service.",
+        "entity_covers": [
+          "physical goods",
+          "digital goods",
+          "subscription plan",
+          "bundle",
+          "rental",
+          "service",
+          "gift card"
+        ],
+        "entity_business_types": [],
+        "field": "product_name",
+        "data_type": "string",
+        "semantic_role": "attribute",
+        "description": "Product title, item name, service name, digital product name, or plan label.",
+        "requirement_level": "recommended",
+        "required_when": [],
+        "source_system_hints": [],
+        "synonyms": [],
+        "match_priority": "medium",
+        "context_rules": [
+          "Business Ambiguity Question: For bundles/kits/subscription boxes, should revenue, margin, and inventory be allocated to parent bundle, components, or both?",
+          "Business Ambiguity Question: Do you sell physical inventory, digital goods, services, subscription plans, bundles/kits, rentals/bookings, or a mix?"
+        ],
+        "score": 0.38285619020462036,
+        "final_confidence": 0.699406623840332,
+        "signals": {
+          "bi_semantic": 0.38285619020462036,
+          "cross_semantic": 0.5873851776123047,
+          "name": 0.4,
+          "dtype": 1.0,
+          "table": 0.0,
+          "logic_boost": 0.2
+        },
+        "reasoning": "Medium confidence: keyword intent match"
+      },
+      {
+        "schema_name": "universal_ecommerce_schema",
+        "field_id": "PRODUCT.sku",
+        "entity": "PRODUCT",
+        "entity_purpose": "Sellable catalog object: item, variant, SKU, plan, bundle, digital asset, rental asset, or service.",
+        "entity_covers": [
+          "physical goods",
+          "digital goods",
+          "subscription plan",
+          "bundle",
+          "rental",
+          "service",
+          "gift card"
+        ],
+        "entity_business_types": [],
+        "field": "sku",
+        "data_type": "string",
+        "semantic_role": "identifier",
+        "description": "Stock keeping unit or sellable item code.",
+        "requirement_level": "conditional_required",
+        "required_when": [
+          "physical goods, warehouse operations, barcode scanning, marketplace listing, or fulfillment is used"
+        ],
+        "source_system_hints": [
+          "Shopify ProductVariant",
+          "SAP Commerce Product"
+        ],
+        "synonyms": [],
+        "match_priority": "medium",
+        "context_rules": [
+          "Rule 'value_pattern_match': Use sampled values to detect email, phone, country, amount, quantity, timestamp, SKU, status, rating, URL, tracking number, and coupon patterns.",
+          "Rule 'product_vs_variant': If product_id repeats across SKUs, use variant_id or sku as the sellable item grain for product performance and inventory.",
+          "Rule 'value_distribution_signal': Use value patterns such as emails, SKU-like strings, currency amounts, timestamps, status enums, event names, and tracking numbers.",
+          "Validation 'sku_uniqueness': sku should be unique at variant level when sku exists.",
+          "Business Ambiguity Question: Is your product grain product-level, variant-level, SKU-level, bundle-level, service-level, or subscription-plan-level?",
+          "Business Ambiguity Question: For bundles/kits/subscription boxes, should revenue, margin, and inventory be allocated to parent bundle, components, or both?",
+          "Business Ambiguity Question: Do you sell physical inventory, digital goods, services, subscription plans, bundles/kits, rentals/bookings, or a mix?"
+        ],
+        "score": 0.49926233291625977,
+        "final_confidence": 0.5449551939964294,
+        "signals": {
+          "bi_semantic": 0.49926233291625977,
+          "cross_semantic": 0.640279233455658,
+          "name": 0.33333333333333337,
+          "dtype": 1.0,
+          "table": 0.0,
+          "logic_boost": 0.0
+        },
+        "reasoning": "Low confidence: contextual relevance"
+      },
+      {
+        "schema_name": "universal_ecommerce_schema",
+        "field_id": "PRODUCT.variant_id",
+        "entity": "PRODUCT",
+        "entity_purpose": "Sellable catalog object: item, variant, SKU, plan, bundle, digital asset, rental asset, or service.",
+        "entity_covers": [
+          "physical goods",
+          "digital goods",
+          "subscription plan",
+          "bundle",
+          "rental",
+          "service",
+          "gift card"
+        ],
+        "entity_business_types": [],
+        "field": "variant_id",
+        "data_type": "string",
+        "semantic_role": "identifier",
+        "description": "Variant or option-level identifier for size, color, package, plan tier, or configuration.",
+        "requirement_level": "conditional_required",
+        "required_when": [
+          "SKU/variant-level catalog, size/color options, WMS, or variant-level inventory is used"
+        ],
+        "source_system_hints": [
+          "Shopify ProductVariant"
+        ],
+        "synonyms": [],
+        "match_priority": "medium",
+        "context_rules": [
+          "Rule 'product_vs_variant': If product_id repeats across SKUs, use variant_id or sku as the sellable item grain for product performance and inventory.",
+          "Business Ambiguity Question: Is your product grain product-level, variant-level, SKU-level, bundle-level, service-level, or subscription-plan-level?",
+          "Business Ambiguity Question: For bundles/kits/subscription boxes, should revenue, margin, and inventory be allocated to parent bundle, components, or both?",
+          "Business Ambiguity Question: Do you sell physical inventory, digital goods, services, subscription plans, bundles/kits, rentals/bookings, or a mix?"
+        ],
+        "score": 0.3729703426361084,
+        "final_confidence": 0.533690333366394,
+        "signals": {
+          "bi_semantic": 0.3729703426361084,
+          "cross_semantic": 0.6397190690040588,
+          "name": 0.4705882352941176,
+          "dtype": 1.0,
+          "table": 0.0,
+          "logic_boost": 0.0
+        },
+        "reasoning": "Low confidence: contextual relevance"
+      },
+      {
+        "schema_name": "universal_ecommerce_schema",
+        "field_id": "PRODUCT.product_id",
+        "entity": "PRODUCT",
+        "entity_purpose": "Sellable catalog object: item, variant, SKU, plan, bundle, digital asset, rental asset, or service.",
+        "entity_covers": [
+          "physical goods",
+          "digital goods",
+          "subscription plan",
+          "bundle",
+          "rental",
+          "service",
+          "gift card"
+        ],
+        "entity_business_types": [],
+        "field": "product_id",
+        "data_type": "string",
+        "semantic_role": "identifier",
+        "description": "Product, catalog item, SKU group, plan, asset, or service identifier.",
+        "requirement_level": "universal_required",
+        "required_when": [
+          "always required for this canonical entity row grain"
+        ],
+        "source_system_hints": [
+          "Shopify Product",
+          "QuickBooks Item",
+          "SAP Commerce Product"
+        ],
+        "synonyms": [],
+        "match_priority": "medium",
+        "context_rules": [
+          "Metric 'inventory_turnover': Measures how efficiently stock is converted into sales and flags slow-moving inventory.",
+          "Rule 'semantic_context_match': Increase confidence when field synonym matches the already recognized entity, e.g. id in PRODUCT table means product_id more than customer_id.",
+          "Rule 'product_vs_variant': If product_id repeats across SKUs, use variant_id or sku as the sellable item grain for product performance and inventory.",
+          "Business Ambiguity Question: Is your product grain product-level, variant-level, SKU-level, bundle-level, service-level, or subscription-plan-level?",
+          "Business Ambiguity Question: For bundles/kits/subscription boxes, should revenue, margin, and inventory be allocated to parent bundle, components, or both?",
+          "Business Ambiguity Question: Do you sell physical inventory, digital goods, services, subscription plans, bundles/kits, rentals/bookings, or a mix?"
+        ],
+        "score": 0.44770389795303345,
+        "final_confidence": 0.5252988934516907,
+        "signals": {
+          "bi_semantic": 0.44770389795303345,
+          "cross_semantic": 0.6004301309585571,
+          "name": 0.42105263157894735,
+          "dtype": 1.0,
+          "table": 0.0,
+          "logic_boost": 0.0
+        },
+        "reasoning": "Low confidence: contextual relevance"
+      },
+      {
+        "schema_name": "universal_ecommerce_schema",
+        "field_id": "PRODUCT.supplier_id",
+        "entity": "PRODUCT",
+        "entity_purpose": "Sellable catalog object: item, variant, SKU, plan, bundle, digital asset, rental asset, or service.",
+        "entity_covers": [
+          "physical goods",
+          "digital goods",
+          "subscription plan",
+          "bundle",
+          "rental",
+          "service",
+          "gift card"
+        ],
+        "entity_business_types": [],
+        "field": "supplier_id",
+        "data_type": "string",
+        "semantic_role": "identifier",
+        "description": "Supplier, vendor, dropshipper, procurement source, or manufacturer identifier.",
+        "requirement_level": "conditional_required",
+        "required_when": [
+          "procurement, dropshipping, supplier performance, purchase orders, or landed-cost analytics is needed"
+        ],
+        "source_system_hints": [],
+        "synonyms": [],
+        "match_priority": "medium",
+        "context_rules": [
+          "Metric 'purchase_order_fill_rate': Measures supplier reliability and inbound replenishment quality.",
+          "Rule 'order_table_priority': Tables named 'orders' or 'order' should be prioritized as TRANSACTION (sales) rather than PURCHASE_ORDER (procurement) unless columns like 'supplier_id' or 'vendor' are present.",
+          "Business Ambiguity Question: For bundles/kits/subscription boxes, should revenue, margin, and inventory be allocated to parent bundle, components, or both?",
+          "Business Ambiguity Question: Do you sell physical inventory, digital goods, services, subscription plans, bundles/kits, rentals/bookings, or a mix?"
+        ],
+        "score": 0.4355980455875397,
+        "final_confidence": 0.505957305431366,
+        "signals": {
+          "bi_semantic": 0.4355980455875397,
+          "cross_semantic": 0.5816155672073364,
+          "name": 0.375,
+          "dtype": 1.0,
+          "table": 0.0,
+          "logic_boost": 0.0
+        },
+        "reasoning": "Low confidence: weak signal"
+      }
+    ]
+  },
+  {
+    "source_table": "data",
+    "source_column": "StockCode",
+    "status": "CUSTOM_FIELD",
+    "recommended_mapping": {
+      "entity": "CUSTOM",
+      "field": "StockCode"
+    },
+    "confidence": 0.5739145874977112,
+    "top_candidates": [
+      {
+        "schema_name": "universal_ecommerce_schema",
+        "field_id": "PRODUCT.sku",
+        "entity": "PRODUCT",
+        "entity_purpose": "Sellable catalog object: item, variant, SKU, plan, bundle, digital asset, rental asset, or service.",
+        "entity_covers": [
+          "physical goods",
+          "digital goods",
+          "subscription plan",
+          "bundle",
+          "rental",
+          "service",
+          "gift card"
+        ],
+        "entity_business_types": [],
+        "field": "sku",
+        "data_type": "string",
+        "semantic_role": "identifier",
+        "description": "Stock keeping unit or sellable item code.",
+        "requirement_level": "conditional_required",
+        "required_when": [
+          "physical goods, warehouse operations, barcode scanning, marketplace listing, or fulfillment is used"
+        ],
+        "source_system_hints": [
+          "Shopify ProductVariant",
+          "SAP Commerce Product"
+        ],
+        "synonyms": [],
+        "match_priority": "medium",
+        "context_rules": [
+          "Rule 'value_pattern_match': Use sampled values to detect email, phone, country, amount, quantity, timestamp, SKU, status, rating, URL, tracking number, and coupon patterns.",
+          "Rule 'product_vs_variant': If product_id repeats across SKUs, use variant_id or sku as the sellable item grain for product performance and inventory.",
+          "Rule 'value_distribution_signal': Use value patterns such as emails, SKU-like strings, currency amounts, timestamps, status enums, event names, and tracking numbers.",
+          "Validation 'sku_uniqueness': sku should be unique at variant level when sku exists.",
+          "Business Ambiguity Question: Is your product grain product-level, variant-level, SKU-level, bundle-level, service-level, or subscription-plan-level?",
+          "Business Ambiguity Question: For bundles/kits/subscription boxes, should revenue, margin, and inventory be allocated to parent bundle, components, or both?",
+          "Business Ambiguity Question: Do you sell physical inventory, digital goods, services, subscription plans, bundles/kits, rentals/bookings, or a mix?"
+        ],
+        "score": 0.45750099420547485,
+        "final_confidence": 0.5739145874977112,
+        "signals": {
+          "bi_semantic": 0.45750099420547485,
+          "cross_semantic": 0.6690787076950073,
+          "name": 0.5,
+          "dtype": 1.0,
+          "table": 0.0,
+          "logic_boost": 0.0
+        },
+        "reasoning": "Low confidence: contextual relevance"
+      },
+      {
+        "schema_name": "universal_ecommerce_schema",
+        "field_id": "INVENTORY.location_id",
+        "entity": "INVENTORY",
+        "entity_purpose": "Stock and availability by product, variant, and location, including physical, virtual, allocated, and available stock.",
+        "entity_covers": [
+          "warehouse stock",
+          "multi-location stock",
+          "reserved stock",
+          "virtual inventory",
+          "dropship availability"
+        ],
+        "entity_business_types": [],
+        "field": "location_id",
+        "data_type": "string",
+        "semantic_role": "identifier",
+        "description": "Warehouse, store, 3PL, fulfillment center, dropship node, or virtual stock location identifier.",
+        "requirement_level": "conditional_required",
+        "required_when": [
+          "multi-location, warehouse, store, 3PL, or stock allocation is used"
+        ],
+        "source_system_hints": [],
+        "synonyms": [],
+        "match_priority": "medium",
+        "context_rules": [
+          "Metric 'inventory_turnover': Measures how efficiently stock is converted into sales and flags slow-moving inventory.",
+          "Validation 'location_required_for_multisite': location_id is required when the business uses multiple warehouses, stores, 3PLs, or dropship nodes.",
+          "Business Ambiguity Question: Do you track inventory by warehouse, store, bin, 3PL, supplier, virtual location, or dropship vendor?",
+          "Business Ambiguity Question: Do you need inventory from snapshot stock only, stock movement ledger only, or both?",
+          "Business Ambiguity Question: Do you sell physical inventory, digital goods, services, subscription plans, bundles/kits, rentals/bookings, or a mix?",
+          "Business Ambiguity Question: Do you need warehouse/inventory/fulfillment reporting, or are products delivered digitally/no-stock?"
+        ],
+        "score": 0.4217575490474701,
+        "final_confidence": 0.5378709435462952,
+        "signals": {
+          "bi_semantic": 0.4217575490474701,
+          "cross_semantic": 0.6448631286621094,
+          "name": 0.4,
+          "dtype": 1.0,
+          "table": 0.0,
+          "logic_boost": 0.0
+        },
+        "reasoning": "Low confidence: contextual relevance"
+      },
+      {
+        "schema_name": "universal_ecommerce_schema",
+        "field_id": "CUSTOMER.email",
+        "entity": "CUSTOMER",
+        "entity_purpose": "Customer, buyer, account, subscriber, member, or company account.",
+        "entity_covers": [
+          "retail buyer",
+          "B2B account",
+          "subscriber",
+          "member",
+          "guest checkout"
+        ],
+        "entity_business_types": [],
+        "field": "email",
+        "data_type": "string",
+        "semantic_role": "pii",
+        "description": "Customer email address.",
+        "requirement_level": "conditional_required",
+        "required_when": [
+          "customer communication, marketing attribution, subscription billing, digital delivery, or identity matching is needed",
+          "business_type in [DTC retail, SaaS subscription, subscription box, membership, digital goods]"
+        ],
+        "source_system_hints": [],
+        "synonyms": [],
+        "match_priority": "medium",
+        "context_rules": [
+          "Rule 'value_pattern_match': Use sampled values to detect email, phone, country, amount, quantity, timestamp, SKU, status, rating, URL, tracking number, and coupon patterns.",
+          "Rule 'column_cluster_signal': Score table identity based on column groups, e.g. customer_id/email/name -> CUSTOMER, order_id/total/date/status -> TRANSACTION.",
+          "Rule 'value_distribution_signal': Use value patterns such as emails, SKU-like strings, currency amounts, timestamps, status enums, event names, and tracking numbers.",
+          "Global Validation 'pii_classification': PII fields such as email, phone, name, and address must be tagged before export or model training.",
+          "Validation 'email_format': email should match a valid email-like pattern when present."
+        ],
+        "score": 0.42678743600845337,
+        "final_confidence": 0.5341305136680603,
+        "signals": {
+          "bi_semantic": 0.42678743600845337,
+          "cross_semantic": 0.6548672914505005,
+          "name": 0.33333333333333337,
+          "dtype": 1.0,
+          "table": 0.0,
+          "logic_boost": 0.0
+        },
+        "reasoning": "Low confidence: contextual relevance"
+      },
+      {
+        "schema_name": "universal_ecommerce_schema",
+        "field_id": "SUPPLIER.supplier_name",
+        "entity": "SUPPLIER",
+        "entity_purpose": "Upstream supply party and procurement terms: supplier, manufacturer, distributor, dropshipper, MOQ, and lead time.",
+        "entity_covers": [
+          "dropshipping",
+          "procurement",
+          "MOQ",
+          "supplier lead time",
+          "manufacturer"
+        ],
+        "entity_business_types": [],
+        "field": "supplier_name",
+        "data_type": "string",
+        "semantic_role": "attribute",
+        "description": "Supplier, manufacturer, distributor, dropshipper, wholesaler, or procurement partner name.",
+        "requirement_level": "conditional_required",
+        "required_when": [
+          "supplier performance, procurement reporting, or dropship vendor display is needed"
+        ],
+        "source_system_hints": [],
+        "synonyms": [],
+        "match_priority": "medium",
+        "context_rules": [
+          "Validation 'supplier_name_presence': supplier_name should be present for procurement, dropship, and replenishment workflows.",
+          "Business Ambiguity Question: Do you track inventory by warehouse, store, bin, 3PL, supplier, virtual location, or dropship vendor?",
+          "Business Ambiguity Question: Do purchase orders represent supplier procurement, dropship orders, replenishment, or manufacturing inputs?"
+        ],
+        "score": 0.4298594295978546,
+        "final_confidence": 0.5297685861587524,
+        "signals": {
+          "bi_semantic": 0.4298594295978546,
+          "cross_semantic": 0.6696074604988098,
+          "name": 0.25,
+          "dtype": 1.0,
+          "table": 0.0,
+          "logic_boost": 0.0
+        },
+        "reasoning": "Low confidence: contextual relevance"
+      },
+      {
+        "schema_name": "universal_ecommerce_schema",
+        "field_id": "CUSTOMER.customer_status",
+        "entity": "CUSTOMER",
+        "entity_purpose": "Customer, buyer, account, subscriber, member, or company account.",
+        "entity_covers": [
+          "retail buyer",
+          "B2B account",
+          "subscriber",
+          "member",
+          "guest checkout"
+        ],
+        "entity_business_types": [],
+        "field": "customer_status",
+        "data_type": "enum",
+        "semantic_role": "categorical",
+        "description": "Customer lifecycle status such as lead, active, inactive, blocked, churned, or deleted.",
+        "requirement_level": "recommended",
+        "required_when": [],
+        "source_system_hints": [],
+        "synonyms": [],
+        "match_priority": "medium",
+        "context_rules": [
+          "Metric 'churn_rate': Tracks recurring revenue loss, membership drop-off, and customer inactivity.",
+          "Validation 'customer_status_allowed_values': customer_status should map to lead, active, inactive, blocked, churned, deleted, guest, or unknown."
+        ],
+        "score": 0.4582570493221283,
+        "final_confidence": 0.5295911431312561,
+        "signals": {
+          "bi_semantic": 0.4582570493221283,
+          "cross_semantic": 0.5800536870956421,
+          "name": 0.5,
+          "dtype": 1.0,
+          "table": 0.0,
+          "logic_boost": 0.0
+        },
+        "reasoning": "Low confidence: weak signal"
+      }
+    ]
+  },
+  {
+    "source_table": "data",
+    "source_column": "InvoiceDate",
+    "status": "CUSTOM_FIELD",
+    "recommended_mapping": {
+      "entity": "CUSTOM",
+      "field": "InvoiceDate"
+    },
+    "confidence": 0.5518320798873901,
+    "top_candidates": [
+      {
+        "schema_name": "universal_ecommerce_schema",
+        "field_id": "TRANSACTION.invoice_id",
+        "entity": "TRANSACTION",
+        "entity_purpose": "Commercial header record: order, invoice, booking, subscription charge, checkout, sales receipt, or marketplace order.",
+        "entity_covers": [
+          "orders",
+          "invoices",
+          "bookings",
+          "subscriptions",
+          "charges",
+          "B2B purchase orders"
+        ],
+        "entity_business_types": [],
+        "field": "invoice_id",
+        "data_type": "string",
+        "semantic_role": "identifier",
+        "description": "Invoice, bill, sales receipt, or accounting document identifier.",
+        "requirement_level": "conditional_required",
+        "required_when": [
+          "B2B invoicing, accounting sync, ERP, QuickBooks/Xero/SAP, or accounts receivable is used"
+        ],
+        "source_system_hints": [],
+        "synonyms": [],
+        "match_priority": "medium",
+        "context_rules": [
+          "Business Ambiguity Question: Should reports use gross sales, net sales, collected payments, booked invoices, or fulfilled orders as the main revenue source?",
+          "Business Ambiguity Question: Does one order create one invoice/payment, or can it create multiple invoices, partial captures, split shipments, or installments?",
+          "Business Ambiguity Question: Does your source system store carts/checkouts before purchase, or only final orders?",
+          "Business Ambiguity Question: Do you require tax, invoice, VAT/GST/sales-tax, exemption, or accounting reconciliation?"
+        ],
+        "score": 0.415041446685791,
+        "final_confidence": 0.5518320798873901,
+        "signals": {
+          "bi_semantic": 0.415041446685791,
+          "cross_semantic": 0.5294767618179321,
+          "name": 0.8888888888888888,
+          "dtype": 1.0,
+          "table": 0.0,
+          "logic_boost": 0.0
+        },
+        "reasoning": "Low confidence: name match"
+      },
+      {
+        "schema_name": "universal_ecommerce_schema",
+        "field_id": "SUPPLIER.supplier_name",
+        "entity": "SUPPLIER",
+        "entity_purpose": "Upstream supply party and procurement terms: supplier, manufacturer, distributor, dropshipper, MOQ, and lead time.",
+        "entity_covers": [
+          "dropshipping",
+          "procurement",
+          "MOQ",
+          "supplier lead time",
+          "manufacturer"
+        ],
+        "entity_business_types": [],
+        "field": "supplier_name",
+        "data_type": "string",
+        "semantic_role": "attribute",
+        "description": "Supplier, manufacturer, distributor, dropshipper, wholesaler, or procurement partner name.",
+        "requirement_level": "conditional_required",
+        "required_when": [
+          "supplier performance, procurement reporting, or dropship vendor display is needed"
+        ],
+        "source_system_hints": [],
+        "synonyms": [],
+        "match_priority": "medium",
+        "context_rules": [
+          "Validation 'supplier_name_presence': supplier_name should be present for procurement, dropship, and replenishment workflows.",
+          "Business Ambiguity Question: Do you track inventory by warehouse, store, bin, 3PL, supplier, virtual location, or dropship vendor?",
+          "Business Ambiguity Question: Do purchase orders represent supplier procurement, dropship orders, replenishment, or manufacturing inputs?"
+        ],
+        "score": 0.3904486298561096,
+        "final_confidence": 0.544082522392273,
+        "signals": {
+          "bi_semantic": 0.3904486298561096,
+          "cross_semantic": 0.6666249632835388,
+          "name": 0.42105263157894735,
+          "dtype": 1.0,
+          "table": 0.0,
+          "logic_boost": 0.0
+        },
+        "reasoning": "Low confidence: contextual relevance"
+      },
+      {
+        "schema_name": "universal_ecommerce_schema",
+        "field_id": "CUSTOMER.email",
+        "entity": "CUSTOMER",
+        "entity_purpose": "Customer, buyer, account, subscriber, member, or company account.",
+        "entity_covers": [
+          "retail buyer",
+          "B2B account",
+          "subscriber",
+          "member",
+          "guest checkout"
+        ],
+        "entity_business_types": [],
+        "field": "email",
+        "data_type": "string",
+        "semantic_role": "pii",
+        "description": "Customer email address.",
+        "requirement_level": "conditional_required",
+        "required_when": [
+          "customer communication, marketing attribution, subscription billing, digital delivery, or identity matching is needed",
+          "business_type in [DTC retail, SaaS subscription, subscription box, membership, digital goods]"
+        ],
+        "source_system_hints": [],
+        "synonyms": [],
+        "match_priority": "medium",
+        "context_rules": [
+          "Rule 'value_pattern_match': Use sampled values to detect email, phone, country, amount, quantity, timestamp, SKU, status, rating, URL, tracking number, and coupon patterns.",
+          "Rule 'column_cluster_signal': Score table identity based on column groups, e.g. customer_id/email/name -> CUSTOMER, order_id/total/date/status -> TRANSACTION.",
+          "Rule 'value_distribution_signal': Use value patterns such as emails, SKU-like strings, currency amounts, timestamps, status enums, event names, and tracking numbers.",
+          "Global Validation 'pii_classification': PII fields such as email, phone, name, and address must be tagged before export or model training.",
+          "Validation 'email_format': email should match a valid email-like pattern when present."
+        ],
+        "score": 0.3993409276008606,
+        "final_confidence": 0.5387149453163147,
+        "signals": {
+          "bi_semantic": 0.3993409276008606,
+          "cross_semantic": 0.6577593684196472,
+          "name": 0.4,
+          "dtype": 1.0,
+          "table": 0.0,
+          "logic_boost": 0.0
+        },
+        "reasoning": "Low confidence: contextual relevance"
+      },
+      {
+        "schema_name": "universal_ecommerce_schema",
+        "field_id": "SUPPLIER.lead_time_days",
+        "entity": "SUPPLIER",
+        "entity_purpose": "Upstream supply party and procurement terms: supplier, manufacturer, distributor, dropshipper, MOQ, and lead time.",
+        "entity_covers": [
+          "dropshipping",
+          "procurement",
+          "MOQ",
+          "supplier lead time",
+          "manufacturer"
+        ],
+        "entity_business_types": [],
+        "field": "lead_time_days",
+        "data_type": "integer",
+        "semantic_role": "attribute",
+        "description": "Expected procurement, replenishment, manufacturing, or dropship lead time in days.",
+        "requirement_level": "conditional_required",
+        "required_when": [
+          "replenishment planning, procurement SLA, or safety stock calculation is needed"
+        ],
+        "source_system_hints": [],
+        "synonyms": [],
+        "match_priority": "medium",
+        "context_rules": [
+          "Validation 'lead_time_non_negative': lead_time_days should be >= 0.",
+          "Business Ambiguity Question: Do you track inventory by warehouse, store, bin, 3PL, supplier, virtual location, or dropship vendor?",
+          "Business Ambiguity Question: Do purchase orders, supplier lead times, MOQ, or replenishment rules exist in the source data?",
+          "Business Ambiguity Question: Do purchase orders represent supplier procurement, dropship orders, replenishment, or manufacturing inputs?"
+        ],
+        "score": 0.4207655191421509,
+        "final_confidence": 0.5340240001678467,
+        "signals": {
+          "bi_semantic": 0.4207655191421509,
+          "cross_semantic": 0.6313494443893433,
+          "name": 0.42105263157894735,
+          "dtype": 1.0,
+          "table": 0.0,
+          "logic_boost": 0.0
+        },
+        "reasoning": "Low confidence: contextual relevance"
+      },
+      {
+        "schema_name": "universal_ecommerce_schema",
+        "field_id": "SUPPLIER.supplier_id",
+        "entity": "SUPPLIER",
+        "entity_purpose": "Upstream supply party and procurement terms: supplier, manufacturer, distributor, dropshipper, MOQ, and lead time.",
+        "entity_covers": [
+          "dropshipping",
+          "procurement",
+          "MOQ",
+          "supplier lead time",
+          "manufacturer"
+        ],
+        "entity_business_types": [],
+        "field": "supplier_id",
+        "data_type": "string",
+        "semantic_role": "identifier",
+        "description": "Supplier, vendor, dropshipper, procurement source, or manufacturer identifier.",
+        "requirement_level": "universal_required",
+        "required_when": [
+          "always required for this canonical entity row grain"
+        ],
+        "source_system_hints": [],
+        "synonyms": [],
+        "match_priority": "medium",
+        "context_rules": [
+          "Metric 'purchase_order_fill_rate': Measures supplier reliability and inbound replenishment quality.",
+          "Rule 'order_table_priority': Tables named 'orders' or 'order' should be prioritized as TRANSACTION (sales) rather than PURCHASE_ORDER (procurement) unless columns like 'supplier_id' or 'vendor' are present.",
+          "Business Ambiguity Question: Do you track inventory by warehouse, store, bin, 3PL, supplier, virtual location, or dropship vendor?",
+          "Business Ambiguity Question: Do purchase orders represent supplier procurement, dropship orders, replenishment, or manufacturing inputs?"
+        ],
+        "score": 0.38174062967300415,
+        "final_confidence": 0.5171526670455933,
+        "signals": {
+          "bi_semantic": 0.38174062967300415,
+          "cross_semantic": 0.6375527381896973,
+          "name": 0.3529411764705882,
+          "dtype": 1.0,
+          "table": 0.0,
+          "logic_boost": 0.0
+        },
+        "reasoning": "Low confidence: contextual relevance"
+      }
+    ]
+  },
+  {
+    "source_table": "data",
+    "source_column": "InvoiceNo",
+    "status": "CUSTOM_FIELD",
+    "recommended_mapping": {
+      "entity": "CUSTOM",
+      "field": "InvoiceNo"
+    },
+    "confidence": 0.5480165481567383,
+    "top_candidates": [
+      {
+        "schema_name": "universal_ecommerce_schema",
+        "field_id": "TRANSACTION.invoice_id",
+        "entity": "TRANSACTION",
+        "entity_purpose": "Commercial header record: order, invoice, booking, subscription charge, checkout, sales receipt, or marketplace order.",
+        "entity_covers": [
+          "orders",
+          "invoices",
+          "bookings",
+          "subscriptions",
+          "charges",
+          "B2B purchase orders"
+        ],
+        "entity_business_types": [],
+        "field": "invoice_id",
+        "data_type": "string",
+        "semantic_role": "identifier",
+        "description": "Invoice, bill, sales receipt, or accounting document identifier.",
+        "requirement_level": "conditional_required",
+        "required_when": [
+          "B2B invoicing, accounting sync, ERP, QuickBooks/Xero/SAP, or accounts receivable is used"
+        ],
+        "source_system_hints": [],
+        "synonyms": [],
+        "match_priority": "medium",
+        "context_rules": [
+          "Business Ambiguity Question: Should reports use gross sales, net sales, collected payments, booked invoices, or fulfilled orders as the main revenue source?",
+          "Business Ambiguity Question: Does one order create one invoice/payment, or can it create multiple invoices, partial captures, split shipments, or installments?",
+          "Business Ambiguity Question: Does your source system store carts/checkouts before purchase, or only final orders?",
+          "Business Ambiguity Question: Do you require tax, invoice, VAT/GST/sales-tax, exemption, or accounting reconciliation?"
+        ],
+        "score": 0.4247667193412781,
+        "final_confidence": 0.5480165481567383,
+        "signals": {
+          "bi_semantic": 0.4247667193412781,
+          "cross_semantic": 0.521149754524231,
+          "name": 0.875,
+          "dtype": 1.0,
+          "table": 0.0,
+          "logic_boost": 0.0
+        },
+        "reasoning": "Low confidence: name match"
+      },
+      {
+        "schema_name": "universal_ecommerce_schema",
+        "field_id": "SUPPLIER.supplier_name",
+        "entity": "SUPPLIER",
+        "entity_purpose": "Upstream supply party and procurement terms: supplier, manufacturer, distributor, dropshipper, MOQ, and lead time.",
+        "entity_covers": [
+          "dropshipping",
+          "procurement",
+          "MOQ",
+          "supplier lead time",
+          "manufacturer"
+        ],
+        "entity_business_types": [],
+        "field": "supplier_name",
+        "data_type": "string",
+        "semantic_role": "attribute",
+        "description": "Supplier, manufacturer, distributor, dropshipper, wholesaler, or procurement partner name.",
+        "requirement_level": "conditional_required",
+        "required_when": [
+          "supplier performance, procurement reporting, or dropship vendor display is needed"
+        ],
+        "source_system_hints": [],
+        "synonyms": [],
+        "match_priority": "medium",
+        "context_rules": [
+          "Validation 'supplier_name_presence': supplier_name should be present for procurement, dropship, and replenishment workflows.",
+          "Business Ambiguity Question: Do you track inventory by warehouse, store, bin, 3PL, supplier, virtual location, or dropship vendor?",
+          "Business Ambiguity Question: Do purchase orders represent supplier procurement, dropship orders, replenishment, or manufacturing inputs?"
+        ],
+        "score": 0.4363572299480438,
+        "final_confidence": 0.5411025881767273,
+        "signals": {
+          "bi_semantic": 0.4363572299480438,
+          "cross_semantic": 0.6581441760063171,
+          "name": 0.3529411764705882,
+          "dtype": 1.0,
+          "table": 0.0,
+          "logic_boost": 0.0
+        },
+        "reasoning": "Low confidence: contextual relevance"
+      },
+      {
+        "schema_name": "universal_ecommerce_schema",
+        "field_id": "TAX.jurisdiction",
+        "entity": "TAX",
+        "entity_purpose": "Tax lines, rates, jurisdictions, VAT/GST/sales-tax amounts, exemptions, and tax reconciliation detail.",
+        "entity_covers": [
+          "sales tax",
+          "VAT",
+          "GST",
+          "tax line",
+          "tax jurisdiction",
+          "tax exemption",
+          "tax reporting"
+        ],
+        "entity_business_types": [],
+        "field": "jurisdiction",
+        "data_type": "string",
+        "semantic_role": "attribute",
+        "description": "Canonical jurisdiction for tax records.",
+        "requirement_level": "conditional_required",
+        "required_when": [
+          "sales tax, VAT/GST, tax nexus, or regional tax reporting is needed"
+        ],
+        "source_system_hints": [],
+        "synonyms": [],
+        "match_priority": "medium",
+        "context_rules": [
+          "Metric 'effective_tax_rate': Checks tax collection consistency across regions, channels, and product categories.",
+          "Rule 'advanced_ecommerce_entity_clusters': Recognize advanced operational tables using column clusters such as channel/store/currency, address/postcode/country, checkout/cart/session, tax/jurisdiction/rate, payout/fee/seller, dispute/chargeback/evidence, consent/opt-in, and bundle/component/quantity.",
+          "Business Ambiguity Question: Do stores/channels have separate currencies, tax regions, warehouses, or reporting targets?",
+          "Business Ambiguity Question: Should location reporting use customer address, shipping address, billing address, store location, or warehouse location?",
+          "Business Ambiguity Question: Should tax be reported by order header, line item, jurisdiction, rate, or tax authority?",
+          "Business Ambiguity Question: Do you require tax, invoice, VAT/GST/sales-tax, exemption, or accounting reconciliation?"
+        ],
+        "score": 0.3939718008041382,
+        "final_confidence": 0.5284194946289062,
+        "signals": {
+          "bi_semantic": 0.3939718008041382,
+          "cross_semantic": 0.6098530292510986,
+          "name": 0.5,
+          "dtype": 1.0,
+          "table": 0.0,
+          "logic_boost": 0.0
+        },
+        "reasoning": "Low confidence: contextual relevance"
+      },
+      {
+        "schema_name": "universal_ecommerce_schema",
+        "field_id": "CUSTOMER.email",
+        "entity": "CUSTOMER",
+        "entity_purpose": "Customer, buyer, account, subscriber, member, or company account.",
+        "entity_covers": [
+          "retail buyer",
+          "B2B account",
+          "subscriber",
+          "member",
+          "guest checkout"
+        ],
+        "entity_business_types": [],
+        "field": "email",
+        "data_type": "string",
+        "semantic_role": "pii",
+        "description": "Customer email address.",
+        "requirement_level": "conditional_required",
+        "required_when": [
+          "customer communication, marketing attribution, subscription billing, digital delivery, or identity matching is needed",
+          "business_type in [DTC retail, SaaS subscription, subscription box, membership, digital goods]"
+        ],
+        "source_system_hints": [],
+        "synonyms": [],
+        "match_priority": "medium",
+        "context_rules": [
+          "Rule 'value_pattern_match': Use sampled values to detect email, phone, country, amount, quantity, timestamp, SKU, status, rating, URL, tracking number, and coupon patterns.",
+          "Rule 'column_cluster_signal': Score table identity based on column groups, e.g. customer_id/email/name -> CUSTOMER, order_id/total/date/status -> TRANSACTION.",
+          "Rule 'value_distribution_signal': Use value patterns such as emails, SKU-like strings, currency amounts, timestamps, status enums, event names, and tracking numbers.",
+          "Global Validation 'pii_classification': PII fields such as email, phone, name, and address must be tagged before export or model training.",
+          "Validation 'email_format': email should match a valid email-like pattern when present."
+        ],
+        "score": 0.4185904264450073,
+        "final_confidence": 0.528045654296875,
+        "signals": {
+          "bi_semantic": 0.4185904264450073,
+          "cross_semantic": 0.6467961072921753,
+          "name": 0.33333333333333337,
+          "dtype": 1.0,
+          "table": 0.0,
+          "logic_boost": 0.0
+        },
+        "reasoning": "Low confidence: contextual relevance"
+      },
+      {
+        "schema_name": "universal_ecommerce_schema",
+        "field_id": "INVENTORY.inventory_record_id",
+        "entity": "INVENTORY",
+        "entity_purpose": "Stock and availability by product, variant, and location, including physical, virtual, allocated, and available stock.",
+        "entity_covers": [
+          "warehouse stock",
+          "multi-location stock",
+          "reserved stock",
+          "virtual inventory",
+          "dropship availability"
+        ],
+        "entity_business_types": [],
+        "field": "inventory_record_id",
+        "data_type": "string",
+        "semantic_role": "identifier",
+        "description": "Inventory record identifier for a specific product/variant/location combination.",
+        "requirement_level": "universal_required",
+        "required_when": [
+          "always required for this canonical entity row grain"
+        ],
+        "source_system_hints": [],
+        "synonyms": [],
+        "match_priority": "medium",
+        "context_rules": [
+          "Business Ambiguity Question: Do you need inventory from snapshot stock only, stock movement ledger only, or both?",
+          "Business Ambiguity Question: Do you sell physical inventory, digital goods, services, subscription plans, bundles/kits, rentals/bookings, or a mix?",
+          "Business Ambiguity Question: Do you need warehouse/inventory/fulfillment reporting, or are products delivered digitally/no-stock?"
+        ],
+        "score": 0.36075976490974426,
+        "final_confidence": 0.5269533395767212,
+        "signals": {
+          "bi_semantic": 0.36075976490974426,
+          "cross_semantic": 0.5485267639160156,
+          "name": 0.75,
+          "dtype": 1.0,
+          "table": 0.0,
+          "logic_boost": 0.0
+        },
+        "reasoning": "Low confidence: weak signal"
+      }
+    ]
+  }
+]

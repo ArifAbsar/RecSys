@@ -1,0 +1,50 @@
+ITEM_ID_FIELD: item_id
+LABEL_FIELD: rating
+RATING_FIELD: rating
+TIME_FIELD: timestamp
+USER_ID_FIELD: user_id
+checkpoint_dir: e:\docker-crash-course\RecSys\Model_Engine\checkpoints
+data_path: e:\docker-crash-course\RecSys\Model_Engine
+dataset: rec
+embedding_size: 16
+epochs: 10
+eval_args:
+  group_by: user
+  mode: uni100
+  order: RO
+  split:
+    RS:
+    - 0.8
+    - 0.1
+    - 0.1
+eval_step: 1
+learner: adam
+learning_rate: 0.001
+load_col:
+  inter:
+  - user_id
+  - item_id
+  - rating
+  - timestamp
+  item:
+  - item_id
+  - Description
+  user:
+  - user_id
+  - Quantity
+  - Country
+metrics:
+- Recall
+- NDCG
+- Precision
+model: DeepFM
+stopping_step: 2
+threshold:
+  rating: 0
+topk:
+- 10
+- 20
+- 100
+train_batch_size: 2048
+use_gpu: true
+valid_metric: Recall@20

@@ -5,3 +5,9 @@ scikit-learn
 sentence-transformers
 tqdm
 rapidfuzz
+powershap
+catboost
+lightgbm
+matplotlib
+recbole
+pyarrow

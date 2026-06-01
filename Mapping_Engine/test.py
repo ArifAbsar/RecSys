@@ -38,7 +38,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Run the Mapping Engine")
     
     # Domain configuration
-    parser.add_argument("--domain-dir", default="../ecommerce", help="Directory containing domain manifests")
+    parser.add_argument("--domain-dir", default="ecommerce", help="Directory containing domain manifests")
     
     # Individual file overrides (defaults are relative to --domain-dir)
     parser.add_argument("--schema",      help="Path to schema.yaml")
@@ -49,7 +49,7 @@ def parse_args():
     parser.add_argument("--questions",   help="Path to questions.yaml")
     parser.add_argument("--rules-manifest", help="Path to classifier_rules.yaml (BML)")
     
-    parser.add_argument("--columns", required=True, help="Path to source CSV")
+    parser.add_argument("--columns", required=True, help="Path to source CSV or JSON")
     parser.add_argument("--model", default="all-MiniLM-L6-v2")
     parser.add_argument("--threshold", type=float, default=0.60)
     parser.add_argument("--output", default="output")
@@ -57,6 +57,10 @@ def parse_args():
     parser.add_argument("--auto", action="store_true")
 
     args = parser.parse_args()
+
+    # Ensure domain_dir is absolute relative to ROOT if not provided as abs
+    if not os.path.isabs(args.domain_dir):
+        args.domain_dir = os.path.join(_ROOT, args.domain_dir)
 
     d = args.domain_dir
     if not args.schema:      args.schema      = os.path.join(d, "schema.yaml")
@@ -69,7 +73,12 @@ def parse_args():
 
     return args
 
-def load_columns_from_csv(path: str) -> list:
+def load_columns(path: str) -> list:
+    if path.endswith(".json"):
+        print(f"Loading columns from JSON: {path}")
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    
     print(f"Loading columns from CSV: {path}")
     df = pd.read_csv(path, nrows=100)
     table_name = os.path.basename(path).split(".")[0]
@@ -82,7 +91,7 @@ def main(args):
     output_dir = args.output if os.path.isabs(args.output) else os.path.join(_ROOT, args.output)
     os.makedirs(output_dir, exist_ok=True)
     
-    source_columns = load_columns_from_csv(args.columns)
+    source_columns = load_columns(args.columns)
     
     print("Initializing Domain Registry...")
     targets = build_target_registry(args.schema, args.keywords, args.metrics, args.rules, args.validations, args.questions)

@@ -7,6 +7,7 @@ Fully data-driven using the 'config' section of classifier_rules.yaml.
 
 import os
 import yaml
+import json
 from typing import Optional, Dict, List
 
 
@@ -138,6 +139,32 @@ class BusinessMeaningLayer:
             weighted_role=self._weighted_role
         )
 
+        # ── NEW: Inject Business Campaigns (Promotion vs Clearance) ──
+        campaign_path = os.path.join(self._writer._output_dir, "campaigns.json")
+        if os.path.exists(campaign_path):
+            try:
+                with open(campaign_path, 'r', encoding='utf-8') as f:
+                    camp_data = json.load(f)
+                    config["promoted_item_ids"] = camp_data.get("promoted_item_ids", [])
+                    config["clearance_item_ids"] = camp_data.get("clearance_item_ids", [])
+                    # NEW: Business Goals (70/20/10 ratio)
+                    config["business_goals"] = camp_data.get("business_goals", {
+                        "personalization_pct": 70,
+                        "curation_pct": 20,
+                        "promotion_pct": 10
+                    })
+            except Exception as e:
+                print(f"  [!] Warning: Failed to load campaigns.json: {e}")
+        else:
+            # Defaults if no file exists
+            config["promoted_item_ids"] = []
+            config["clearance_item_ids"] = []
+            config["business_goals"] = {
+                "personalization_pct": 70,
+                "curation_pct": 20,
+                "promotion_pct": 10
+            }
+
         config_path = self._writer.write(config) if save_output else None
 
         _print_summary(
@@ -145,7 +172,9 @@ class BusinessMeaningLayer:
             role_buckets=role_buckets,
             interaction_signals=interaction_signals,
             ambiguous=ambiguous_records,
-            weighted_role=self._weighted_role
+            weighted_role=self._weighted_role,
+            promoted=config.get("promoted_item_ids", []),
+            clearance=config.get("clearance_item_ids", [])
         )
 
         return config
@@ -166,7 +195,9 @@ def _print_summary(
     role_buckets: Dict[str, List[str]],
     interaction_signals: Dict[str, float],
     ambiguous: list[dict],
-    weighted_role: str
+    weighted_role: str,
+    promoted: List[str] = None,
+    clearance: List[str] = None
 ) -> None:
     W = 72
     print("\n" + "=" * W)
@@ -191,6 +222,13 @@ def _print_summary(
             print(f"    • {a['source_column']}")
             for r in a["reasons"]:
                 print(f"        - {r}")
+
+    if promoted or clearance:
+        print(f"\n  [ACTIVE BUSINESS CAMPAIGNS]")
+        if promoted:
+            print(f"    • Promoted Items: {len(promoted)} active")
+        if clearance:
+            print(f"    • Clearance Items: {len(clearance)} active")
 
     if config_path:
         print(f"\n Written → {config_path}")

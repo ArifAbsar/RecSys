@@ -1,0 +1,491 @@
+intelligent_rules:
+  # --- CORE STRATEGY ---
+  - id: CORE_PREMIUM
+    name: "Luxury Tier"
+    intent_string: "high-end luxury, fine craftsmanship, exclusive designer brands"
+    weight: 0.8
+    threshold: 0.50
+
+  - id: CORE_SUMMER
+    name: "Summer Lifestyle"
+    intent_string: "gardening, outdoor dining, picnics, and sunshine"
+    weight: 0.7
+    threshold: 0.45
+
+  - id: CORE_DAILY
+    name: "Daily Essentials"
+    intent_string: "functional items for the home, kitchen, and bathroom"
+    weight: 0.4
+    threshold: 0.48
+
+  - id: CORE_KIDS
+    name: "Children's Gifting"
+    intent_string: "toys, colorful games, and kids bedroom decor"
+    weight: 0.6
+    threshold: 0.45
+
+  # --- KITCHEN & DINING ---
+  - id: KIT_TEA
+    name: "Tea Time"
+    intent_string: "teapots, teacups, saucers, sugar bowls, and tea towels"
+    weight: 0.65
+    threshold: 0.50
+
+  - id: KIT_BAKE
+    name: "Home Baking"
+    intent_string: "cake tins, rolling pins, measuring spoons, and flour sifters"
+    weight: 0.60
+    threshold: 0.52
+
+  - id: KIT_STORAGE
+    name: "Kitchen Org"
+    intent_string: "bread bins, spice jars, pantry containers, and canisters"
+    weight: 0.55
+    threshold: 0.50
+
+  - id: KIT_DINNER
+    name: "Dinner Party"
+    intent_string: "place mats, napkins, wine glasses, and serving platters"
+    weight: 0.70
+    threshold: 0.48
+
+  - id: KIT_COFFEE
+    name: "Coffee Culture"
+    intent_string: "cafetieres, espresso cups, coffee grinders, and mugs"
+    weight: 0.55
+    threshold: 0.50
+
+  - id: KIT_ENAMEL
+    name: "Enamelware"
+    intent_string: "enamel mugs, plates, bowls, and retro camping dishes"
+    weight: 0.50
+    threshold: 0.50
+
+  # --- HOME DECOR ---
+  - id: DEC_CANDLE
+    name: "Candlelight"
+    intent_string: "scented candles, tealight holders, and candelabras"
+    weight: 0.70
+    threshold: 0.50
+
+  - id: DEC_MIRROR
+    name: "Mirrors"
+    intent_string: "wall mirrors, vanity mirrors, and decorative mirrors"
+    weight: 0.60
+    threshold: 0.48
+
+  - id: DEC_FRAME
+    name: "Picture Frames"
+    intent_string: "photo frames, wall art, and decorative prints"
+    weight: 0.55
+    threshold: 0.50
+
+  - id: DEC_CLOCK
+    name: "Timepieces"
+    intent_string: "wall clocks, alarm clocks, and retro desk clocks"
+    weight: 0.50
+    threshold: 0.52
+
+  - id: DEC_CUSHION
+    name: "Soft Decor"
+    intent_string: "cushions, pillows, throws, and blankets"
+    weight: 0.60
+    threshold: 0.48
+
+  - id: DEC_LIGHT
+    name: "Lighting"
+    intent_string: "lampshades, lanterns, and decorative fairy lights"
+    weight: 0.65
+    threshold: 0.58
+
+  # --- OCCASIONS ---
+  - id: OCC_WEDDING
+    name: "Wedding"
+    intent_string: "bridal gifts, favors, and wedding decorations"
+    weight: 0.85
+    threshold: 0.45
+
+  - id: OCC_BIRTHDAY
+    name: "Birthday"
+    intent_string: "party bags, cards, balloons, and cake toppers"
+    weight: 0.75
+    threshold: 0.55
+
+  - id: OCC_CHRISTMAS
+    name: "Christmas"
+    intent_string: "tree decor, stockings, wrap, and festive lights"
+    weight: 0.90
+    threshold: 0.55
+
+  - id: OCC_VALENTINE
+    name: "Valentine"
+    intent_string: "hearts, romantic gifts, roses, and love cards"
+    weight: 0.80
+    threshold: 0.55
+
+  - id: OCC_BABY
+    name: "New Baby"
+    intent_string: "nursery decor, baby gifts, and soft toys"
+    weight: 0.65
+    threshold: 0.48
+
+  # --- MATERIALS ---
+  - id: MAT_WOOD
+    name: "Woodwork"
+    intent_string: "oak, pine, timber, and wooden carvings"
+    weight: 0.60
+    threshold: 0.48
+
+  - id: MAT_GLASS
+    name: "Glassware"
+    intent_string: "crystal, etched glass, and recycled glass jars"
+    weight: 0.55
+    threshold: 0.50
+
+  - id: MAT_METAL
+    name: "Metalwork"
+    intent_string: "iron, steel, copper, zinc, and brass"
+    weight: 0.50
+    threshold: 0.52
+
+  - id: MAT_CERAMIC
+    name: "Pottery"
+    intent_string: "stoneware, porcelain, and glazed clay"
+    weight: 0.55
+    threshold: 0.50
+
+  - id: MAT_RECYCLED
+    name: "Eco Friendly"
+    intent_string: "recycled materials, sustainable wood, and organic cotton"
+    weight: 0.70
+    threshold: 0.45
+
+  # --- COLORS ---
+  - id: COL_RED
+    name: "Red Theme"
+    intent_string: "red patterns, hearts, roses, and vibrant red"
+    weight: 0.50
+    threshold: 0.50
+
+  - id: COL_BLUE
+    name: "Blue Theme"
+    intent_string: "coastal blue, navy, sky blue, and serene tones"
+    weight: 0.50
+    threshold: 0.50
+
+  - id: COL_PINK
+    name: "Pink Theme"
+    intent_string: "pastel pink, rose, and floral feminine tones"
+    weight: 0.50
+    threshold: 0.50
+
+  - id: COL_GOLD
+    name: "Gold Theme"
+    intent_string: "glamorous gold, brassy tones, and luxury finish"
+    weight: 0.60
+    threshold: 0.48
+
+  # --- USAGE ---
+  - id: USE_TRAVEL
+    name: "Travel"
+    intent_string: "luggage tags, passport holders, and travel bags"
+    weight: 0.60
+    threshold: 0.48
+
+  - id: USE_GARDEN
+    name: "Garden"
+    intent_string: "tools, markers, bird feeders, and outdoor pots"
+    weight: 0.65
+    threshold: 0.45
+
+  - id: USE_CRAFT
+    name: "Craft"
+    intent_string: "sewing, knitting, and artistic supplies"
+    weight: 0.55
+    threshold: 0.50
+
+  - id: USE_PETS
+    name: "Pets"
+    intent_string: "bowls, toys, beds, and animal care"
+    weight: 0.50
+    threshold: 0.52
+
+  # --- STYLES ---
+  - id: STY_VINTAGE
+    name: "Vintage"
+    intent_string: "victorian, antique, heritage, and nostalgic items"
+    weight: 0.60
+    threshold: 0.48
+
+  - id: STY_MODERN
+    name: "Modern"
+    intent_string: "minimalist, sleek, geometric, and urban designs"
+    weight: 0.50
+    threshold: 0.52
+
+  - id: STY_INDUSTRIAL
+    name: "Industrial"
+    intent_string: "rugged metal, raw wood, and factory style"
+    weight: 0.50
+    threshold: 0.52
+
+  - id: STY_FRENCH
+    name: "French"
+    intent_string: "provencal, chic, elegant, and lavender themes"
+    weight: 0.60
+    threshold: 0.48
+
+  # --- AUDIENCE ---
+  - id: AUD_MENS
+    name: "Gifts for Men"
+    intent_string: "industrial gadgets, travel gear, and workshop tools"
+    weight: 0.55
+    threshold: 0.50
+
+  - id: AUD_WOMENS
+    name: "Gifts for Women"
+    intent_string: "jewelry, scarves, perfume bottles, and soft decor"
+    weight: 0.55
+    threshold: 0.50
+
+  # --- MISC ---
+  - id: MISC_FRAGILE
+    name: "Fragile"
+    intent_string: "delicate glass, ceramic, and mirror items"
+    weight: -0.80
+    threshold: 0.55
+
+  - id: MISC_HEAVY
+    name: "Heavy"
+    intent_string: "furniture, large trunks, and heavy metal hardware"
+    weight: -0.70
+    threshold: 0.55
+
+  - id: MISC_NOVELTY
+    name: "Novelty"
+    intent_string: "fun, quirky, and conversation starter items"
+    weight: 0.55
+    threshold: 0.50
+
+  # --- SEASONS ---
+  - id: SEA_AUTUMN
+    name: "Autumn Harvest"
+    intent_string: "cozy warm tones, pumpkins, fallen leaves, and harvest decor"
+    weight: 0.65
+    threshold: 0.45
+
+  - id: SEA_WINTER
+    name: "Winter Warmth"
+    intent_string: "velvet, thick blankets, fireplace accessories, and cold weather gear"
+    weight: 0.70
+    threshold: 0.45
+
+  - id: SEA_SPRING
+    name: "Spring Renewal"
+    intent_string: "floral patterns, bright greens, renewal, and fresh home decor"
+    weight: 0.60
+    threshold: 0.48
+
+  # --- COLORS DEEP DIVE ---
+  - id: COL_GREEN
+    name: "Botanical Green"
+    intent_string: "sage, forest green, moss, and leafy nature patterns"
+    weight: 0.55
+    threshold: 0.50
+
+  - id: COL_YELLOW
+    name: "Sunshine Yellow"
+    intent_string: "citrus tones, bright yellow, and cheerful summer colors"
+    weight: 0.50
+    threshold: 0.52
+
+  - id: COL_MONO
+    name: "Monochrome"
+    intent_string: "black and white, charcoal, and sleek gray minimalist tones"
+    weight: 0.45
+    threshold: 0.55
+
+  # --- SPECIFIC PRODUCTS ---
+  - id: PROD_STATIONERY
+    name: "Stationery"
+    intent_string: "notebooks, journals, pens, pencils, and desk accessories"
+    weight: 0.40
+    threshold: 0.50
+
+  - id: PROD_MAGNETS
+    name: "Magnets"
+    intent_string: "fridge magnets, tin plaques, and small metal signs"
+    weight: 0.35
+    threshold: 0.58
+
+  - id: PROD_JEWELRY
+    name: "Jewelry"
+    intent_string: "necklaces, earrings, trinket boxes, and jewelry rolls"
+    weight: 0.70
+    threshold: 0.62
+
+  - id: PROD_GAMES
+    name: "Classic Games"
+    intent_string: "playing cards, dice sets, and traditional wooden toys"
+    weight: 0.50
+    threshold: 0.50
+
+  # --- MOOD & AMBIANCE ---
+  - id: MOOD_ZEN
+    name: "Zen Space"
+    intent_string: "calming incense, meditation aids, and spa-like atmosphere"
+    weight: 0.60
+    threshold: 0.48
+
+  - id: MOOD_ROMANTIC
+    name: "Romantic Home"
+    intent_string: "lace, soft lighting, hearts, and elegant gifting"
+    weight: 0.65
+    threshold: 0.45
+
+  - id: MOOD_PARTY
+    name: "Party Mood"
+    intent_string: "energetic colors, balloons, and high-energy celebration"
+    weight: 0.75
+    threshold: 0.45
+
+  # --- HOBBIES & CREATIVITY ---
+  - id: HOB_SEWING
+    name: "Sewing & Haberdashery"
+    intent_string: "buttons, ribbons, thimbles, pin cushions, and sewing boxes"
+    weight: 0.55
+    threshold: 0.50
+
+  - id: HOB_KNITTING
+    name: "Knitting & Crochet"
+    intent_string: "wool, knitting needles, crochet hooks, and yarn bowls"
+    weight: 0.55
+    threshold: 0.50
+
+  - id: HOB_GARDENING
+    name: "Expert Gardening"
+    intent_string: "seed packets, trowels, pruning shears, and garden twine"
+    weight: 0.65
+    threshold: 0.45
+
+  # --- TARGETED AUDIENCE ---
+  - id: AUD_GRANDPARENTS
+    name: "Gifts for Grandparents"
+    intent_string: "classic heritage items, photo albums, and sentimental tokens"
+    weight: 0.60
+    threshold: 0.48
+
+  - id: AUD_TEACHERS
+    name: "Teacher Gifts"
+    intent_string: "thank you cards, notebooks, pens, and desk accessories"
+    weight: 0.50
+    threshold: 0.52
+
+  - id: AUD_STUDENTS
+    name: "Student Living"
+    intent_string: "functional storage, budget-friendly decor, and desk lamps"
+    weight: 0.45
+    threshold: 0.55
+
+  # --- ADDITIONAL STYLES ---
+  - id: STY_SCANDI
+    name: "Scandi Minimalist"
+    intent_string: "light wood, neutral tones, clean lines, and nordic simplicity"
+    weight: 0.55
+    threshold: 0.50
+
+  - id: STY_BOHO
+    name: "Bohemian"
+    intent_string: "eclectic patterns, tassels, woven mats, and hippie chic"
+    weight: 0.55
+    threshold: 0.50
+
+  - id: STY_ARTDECO
+    name: "Art Deco Luxe"
+    intent_string: "geometric gold, bold mirrors, and glamorous 1920s style"
+    weight: 0.65
+    threshold: 0.48
+
+  # --- STORAGE SOLUTIONS ---
+  - id: STOR_BASKETS
+    name: "Woven Storage"
+    intent_string: "wicker baskets, seagrass mats, and rattan hampers"
+    weight: 0.50
+    threshold: 0.52
+
+  - id: STOR_TINS
+    name: "Decorative Tins"
+    intent_string: "printed biscuit tins, metal storage boxes, and retro caddies"
+    weight: 0.45
+    threshold: 0.55
+
+  # --- DINING DETAILS ---
+  - id: DIN_PLACEMATS
+    name: "Table Settings"
+    intent_string: "cork placemats, coasters, napkins, and table runners"
+    weight: 0.50
+    threshold: 0.52
+
+  - id: DIN_GLASSWARE
+    name: "Fine Glassware"
+    intent_string: "wine glasses, crystal tumblers, and etched glass carafes"
+    weight: 0.60
+    threshold: 0.48
+
+  - id: DIN_CUTLERY
+    name: "Classic Cutlery"
+    intent_string: "stainless steel sets, vintage spoons, and serving forks"
+    weight: 0.40
+    threshold: 0.55
+
+  # --- OFFICE & WORKSPACE ---
+  - id: OFF_DESK_TIDY
+    name: "Desk Organization"
+    intent_string: "pen pots, paperclips, desk tidy sets, and letter trays"
+    weight: 0.45
+    threshold: 0.52
+
+  - id: OFF_PAPERWEIGHTS
+    name: "Paperweights"
+    intent_string: "glass paperweights, heavy metal desk ornaments, and bookends"
+    weight: 0.40
+    threshold: 0.55
+
+  # --- TRAVEL & ADVENTURE ---
+  - id: TRAV_LUGGAGE
+    name: "Travel Accessories"
+    intent_string: "luggage tags, passport covers, and travel document holders"
+    weight: 0.60
+    threshold: 0.48
+
+  - id: TRAV_FLASKS
+    name: "Adventure Flasks"
+    intent_string: "stainless steel flasks, thermal bottles, and travel mugs"
+    weight: 0.55
+    threshold: 0.50
+
+  # --- SPECIAL ANNIVERSARY ---
+  - id: ANNIV_SILVER
+    name: "Silver Anniversary"
+    intent_string: "silver plated gifts, photo frames, and 25th anniversary tokens"
+    weight: 0.70
+    threshold: 0.65
+
+  - id: ANNIV_GOLD
+    name: "Golden Anniversary"
+    intent_string: "gold leaf decor, commemorative plates, and 50th anniversary gifts"
+    weight: 0.75
+    threshold: 0.65
+
+  # --- AUDIT & FILTERS ---
+  - id: AUDIT_FRAGILE
+    name: "Fragile Check"
+    intent_string: "delicate ceramic, thin glass, and breakable ornaments"
+    weight: -0.85
+    threshold: 0.55
+
+  - id: AUDIT_BULKY
+    name: "Bulky Shipping"
+    intent_string: "large furniture, heavy iron trunks, and oversized mirrors"
+    weight: -0.75
+    threshold: 0.58

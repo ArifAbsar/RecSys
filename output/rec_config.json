@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-05-14T08:44:08.685605+00:00",
+  "identity": [
+    "CustomerID"
+  ],
+  "content_features": [
+    "Description"
+  ],
+  "filters": [
+    "StockCode"
+  ],
+  "ignore": [
+    "InvoiceDate"
+  ],
+  "interaction_signals": {
+    "Quantity": 0.6,
+    "UnitPrice": 0.85,
+    "Country": 0.1,
+    "InvoiceNo": 0.1
+  },
+  "ambiguous": [],
+  "mapping_provenance": {
+    "CustomerID": {
+      "entity": "CUSTOMER",
+      "field": "customer_id",
+      "confidence": 0.8974,
+      "status": "NEEDS_REVIEW"
+    },
+    "Quantity": {
+      "entity": "ORDER_LINE",
+      "field": "quantity",
+      "confidence": 0.7697,
+      "status": "NEEDS_REVIEW"
+    },
+    "UnitPrice": {
+      "entity": "PRODUCT",
+      "field": "unit_price",
+      "confidence": 0.7106,
+      "status": "NEEDS_REVIEW"
+    },
+    "Country": {
+      "entity": "ADDRESS_LOCATION",
+      "field": "country_code",
+      "confidence": 0.7073,
+      "status": "NEEDS_REVIEW"
+    },
+    "Description": {
+      "entity": "PRODUCT",
+      "field": "product_name",
+      "confidence": 0.6994,
+      "status": "NEEDS_REVIEW"
+    },
+    "StockCode": {
+      "entity": "CUSTOM",
+      "field": "StockCode",
+      "confidence": 0.5739,
+      "status": "CUSTOM_FIELD"
+    },
+    "InvoiceDate": {
+      "entity": "CUSTOM",
+      "field": "InvoiceDate",
+      "confidence": 0.5518,
+      "status": "CUSTOM_FIELD"
+    },
+    "InvoiceNo": {
+      "entity": "CUSTOM",
+      "field": "InvoiceNo",
+      "confidence": 0.548,
+      "status": "CUSTOM_FIELD"
+    }
+  },
+  "promoted_item_ids": [
+    "85123A",
+    "71053"
+  ],
+  "clearance_item_ids": [
+    "22423",
+    "22086"
+  ]
+}
