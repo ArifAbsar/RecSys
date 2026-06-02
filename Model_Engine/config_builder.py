@@ -15,9 +15,6 @@ def build_configs(base_dir: str):
     
     with open(model_choice_path, 'r') as f:
         suggested_model = json.load(f)["suggested_model"]
-
-    user_id = bml_config.get("identity", [])[0]
-    item_id = bml_config.get("filters", [])[0]
     
     # Interaction signals (Rating)
     signals = bml_config.get("interaction_signals", {})
