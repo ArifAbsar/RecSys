@@ -75,7 +75,7 @@ def run_training(config_file: str):
     print(f"Test Result: {test_result}")
 
 if __name__ == "__main__":
-    base_dir = r"e:\docker-crash-course\RecSys"
+    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
     
     # 1. Train Retrieval Model (LightGCN)
     run_training(os.path.join(base_dir, "Model_Engine", "retrieval_config.yaml"))

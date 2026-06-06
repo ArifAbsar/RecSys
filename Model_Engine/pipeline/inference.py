@@ -236,8 +236,16 @@ def run_stage2_semantic_inference(
     
     # 1. Load Retrieval Model
     retrieval_config_path = os.path.join(paths["base_dir"], "Model_Engine", cfg.retrieval_config_filename)
+    import yaml
+    try:
+        with open(retrieval_config_path, 'r') as f:
+            yaml_config = yaml.safe_load(f)
+        retrieval_model_name = yaml_config.get('model', cfg.retrieval_model_name)
+    except Exception:
+        retrieval_model_name = cfg.retrieval_model_name
+
     ret_config, _, retrieval_model = load_recbole_model(
-        retrieval_config_path, paths["cp_dir"], cfg.retrieval_model_name
+        retrieval_config_path, paths["cp_dir"], retrieval_model_name
     )
     retrieval_uid_field = ret_config['USER_ID_FIELD']  # Bug 10: use retrieval config, not ranking config
 

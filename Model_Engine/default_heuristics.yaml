@@ -1,0 +1,13 @@
+heuristics:
+  click: 1.0
+  view: 1.0
+  detail: 1.0
+  play: 2.0
+  like: 2.0
+  fav: 2.0
+  favorite: 2.0
+  cart: 3.0
+  add: 3.0
+  purchase: 5.0
+  buy: 5.0
+  order: 5.0

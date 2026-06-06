@@ -165,6 +165,8 @@ class BusinessMeaningLayer:
                 "promotion_pct": 10
             }
 
+        config["interaction_signal_rules"] = self._rules.get("interaction_signal_weights", {}).get("rules", [])
+
         config_path = self._writer.write(config) if save_output else None
 
         _print_summary(

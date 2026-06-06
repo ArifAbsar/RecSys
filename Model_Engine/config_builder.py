@@ -107,5 +107,5 @@ def build_configs(base_dir: str):
     print(f"[CONFIG] Success. Created Retrieval ({suggested_model}) and Ranking (DeepFM) YAMLs.")
 
 if __name__ == "__main__":
-    base_dir = r"e:\docker-crash-course\RecSys"
+    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
     build_configs(base_dir)

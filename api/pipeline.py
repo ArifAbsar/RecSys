@@ -11,7 +11,7 @@ from Business_Meaning.role_classifier import classify_role
 from Business_Meaning.weight_assigner import assign_weight
 from Business_Meaning.ambiguity_detector import is_ambiguous
 
-from api.jobs_db import JOBS, save_job_state
+from api.jobs import get_store  # ← replaces: from api.jobs_db import JOBS, save_job_state
 import api.state as state
 
 @contextlib.contextmanager
@@ -35,10 +35,12 @@ def capture_stdout(log_list):
 
 def run_headless_mapping_pipeline(job_id):
     """Runs the full schema mapping pipeline for a specific job state."""
-    job = JOBS[job_id]
+    store = get_store()                      # ← added
+    job = store.get(job_id)                  # ← replaces: job = JOBS[job_id]
+
     job["status"] = "running"
     job["progress"] = {"percentage": 10, "message": "Initializing headless schema mapping job..."}
-    save_job_state(job_id)
+    store.update(job_id, job)                # ← replaces: save_job_state(job_id)
 
     log_capture = []
     
@@ -48,7 +50,7 @@ def run_headless_mapping_pipeline(job_id):
             source_columns = job["source_columns"]
 
             job["progress"] = {"percentage": 30, "message": "Analyzing schema synonyms dictionary entries..."}
-            save_job_state(job_id)
+            store.update(job_id, job)        # ← replaces: save_job_state(job_id)
 
             all_source_results = []
             num_cols = len(source_columns)
@@ -59,7 +61,7 @@ def run_headless_mapping_pipeline(job_id):
                 message = f"Computing vector embeddings & reranking column {i+1} of {num_cols}: {col['column']}..."
                 
                 job["progress"] = {"percentage": percentage, "message": message}
-                save_job_state(job_id)
+                store.update(job_id, job)    # ← replaces: save_job_state(job_id)
                 
                 print(f"Retrieving semantic candidates for column: {col['column']}")
                 raw_cands = state.MATCHER.match_column(col)
@@ -69,14 +71,14 @@ def run_headless_mapping_pipeline(job_id):
                 all_source_results.append({"source": col, "candidates": refined})
 
             job["progress"] = {"percentage": 80, "message": "Solving global 1:1 schema mapping constraints..."}
-            save_job_state(job_id)
+            store.update(job_id, job)        # ← replaces: save_job_state(job_id)
             
             threshold = 0.60
             resolved_mappings = resolve_mappings(all_source_results, threshold)
             print(f"Global 1:1 resolver completed. Resolved {len(resolved_mappings)} mapping(s).")
 
             job["progress"] = {"percentage": 90, "message": "Classifying business meaning functional roles..."}
-            save_job_state(job_id)
+            store.update(job_id, job)        # ← replaces: save_job_state(job_id)
             
             layer = BusinessMeaningLayer(
                 output_dir=state.OUTPUT_DIR,
@@ -187,4 +189,4 @@ def run_headless_mapping_pipeline(job_id):
         job["error"] = str(e)
     
     job["logs"].extend(log_capture)
-    save_job_state(job_id)
+    store.update(job_id, job)                # ← replaces: save_job_state(job_id)

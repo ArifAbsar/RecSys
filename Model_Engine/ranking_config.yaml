@@ -3,8 +3,8 @@ LABEL_FIELD: rating
 RATING_FIELD: rating
 TIME_FIELD: timestamp
 USER_ID_FIELD: user_id
-checkpoint_dir: e:\docker-crash-course\RecSys\Model_Engine\checkpoints
-data_path: e:\docker-crash-course\RecSys\Model_Engine
+checkpoint_dir: F:\RecSys\Model_Engine\checkpoints
+data_path: F:\RecSys\Model_Engine
 dataset: rec
 embedding_size: 16
 epochs: 10
@@ -28,11 +28,7 @@ load_col:
   - timestamp
   item:
   - item_id
-  - Description
-  user:
-  - user_id
-  - Quantity
-  - Country
+  - value
 metrics:
 - Recall
 - NDCG

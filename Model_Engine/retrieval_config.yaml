@@ -2,8 +2,8 @@ ITEM_ID_FIELD: item_id
 RATING_FIELD: rating
 TIME_FIELD: timestamp
 USER_ID_FIELD: user_id
-checkpoint_dir: e:\docker-crash-course\RecSys\Model_Engine\checkpoints
-data_path: e:\docker-crash-course\RecSys\Model_Engine
+checkpoint_dir: F:\RecSys\Model_Engine\checkpoints
+data_path: F:\RecSys\Model_Engine
 dataset: rec
 embedding_size: 64
 epochs: 10
@@ -29,14 +29,14 @@ metrics:
 - Recall
 - NDCG
 - Precision
-model: LightGCN
-neg_sampling:
-  uniform: 1
+model: BPR
 stopping_step: 2
 topk:
 - 10
 - 20
 - 100
 train_batch_size: 2048
+train_neg_sample_args:
+  uniform: 1
 use_gpu: true
 valid_metric: Recall@20

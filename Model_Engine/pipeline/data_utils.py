@@ -48,12 +48,12 @@ def load_recbole_model(config_path: str, cp_dir: str, model_name: str):
     Returns (config, dataset, model).
     """
     valid_cps = [
-        f for f in os.listdir(cp_dir)
+        os.path.join(cp_dir, f) for f in os.listdir(cp_dir)
         if f.startswith(model_name) and f.endswith('.pth')
     ]
     if not valid_cps:
         raise FileNotFoundError(f"No {model_name} checkpoints found in {cp_dir}")
-    model_path = os.path.join(cp_dir, sorted(valid_cps)[-1])
+    model_path = max(valid_cps, key=os.path.getmtime)
 
     config  = Config(model=model_name, config_file_list=[config_path])
     dataset = create_dataset(config)
@@ -74,11 +74,33 @@ def extract_item_metadata(dataset, intelligence_map: dict) -> tuple:
     """
     item_limit = dataset.item_num
     item_ids   = [dataset.id2token(dataset.iid_field, i) for i in range(item_limit)]
-    desc_col   = intelligence_map.get('content_features', ['Description'])[0]
     item_feat  = dataset.item_feat
-    descriptions: list[str] = []
 
+    # Resolve description column from config, with a safe fallback
+    requested_col = intelligence_map.get('content_features', [None])[0]
+    available_cols = list(item_feat.interaction.keys())
+
+    if requested_col and requested_col in available_cols:
+        desc_col = requested_col
+    else:
+        # Pick any non-id token column as description, or use None
+        fallback = next(
+            (c for c in available_cols if c != dataset.iid_field),
+            None
+        )
+        if requested_col:
+            print(
+                f"[DATA_UTILS] Warning: content_feature '{requested_col}' not found in item_feat. "
+                f"Available: {available_cols}. "
+                f"{'Falling back to: ' + fallback if fallback else 'No description column available.'}"
+            )
+        desc_col = fallback
+
+    descriptions: list[str] = []
     for i in range(item_limit):
+        if desc_col is None:
+            descriptions.append("[No Description]")
+            continue
         val = item_feat[desc_col][i]
         if isinstance(val, torch.Tensor):
             val = val.item()
